@@ -1,0 +1,94 @@
+plugins {
+    id 'java'
+    id "idea"
+    id 'org.springframework.boot' version '3.2.0-SNAPSHOT'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id "com.google.protobuf" version "0.9.3"
+    id "org.jetbrains.kotlin.jvm" version "1.9.0"
+    id "org.jetbrains.kotlin.plugin.lombok" version "1.9.0"
+    id "org.jetbrains.kotlin.plugin.jpa" version "1.9.0"
+}
+
+ext {
+    defaultJvmArgs = [
+//        "-Xss4m",
+//        "-XX:+UseParallelGC",
+"--enable-preview",
+"--add-opens=java.base/java.net=ALL-UNNAMED",
+"--add-opens=java.base/java.io=ALL-UNNAMED",
+"--add-opens=java.base/java.lang=ALL-UNNAMED",
+"--add-opens=java.base/java.nio=ALL-UNNAMED",
+"--add-opens=java.base/java.nio.file=ALL-UNNAMED",
+"--add-opens=java.base/java.util=ALL-UNNAMED",
+"--add-opens=java.base/java.util.concurrent=ALL-UNNAMED",
+"--add-opens=java.base/java.util.regex=ALL-UNNAMED",
+"--add-opens=java.base/java.util.stream=ALL-UNNAMED",
+"--add-opens=java.base/java.text=ALL-UNNAMED",
+"--add-opens=java.base/java.time=ALL-UNNAMED",
+"--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED"
+    ]
+}
+
+group = 'org.dyson'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://reposilite.tiktzuki.com/snapshots" }
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+    maven {
+        url "https://packages.confluent.io/maven" // Detect generated grpc classes
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+tasks.withType(JavaCompile) {
+    options.compilerArgs.addAll(defaultJvmArgs)
+}
+task integrationTest(type: Test, dependsOn: compileJava) {
+    jvmArgs(defaultJvmArgs)
+}
+task unitTest(type: Test, dependsOn: compileJava) {
+    jvmArgs(defaultJvmArgs)
+}
+task srcJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+dependencies {
+    implementation platform("org.axonframework:axon-bom:4.8.0")
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-cassandra-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0"
+
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "io.github.microutils:kotlin-logging-jvm:3.0.5"
+
+//    implementation "org.dyson:core:0.0.1-SNAPSHOT"
+//    implementation "org.dyson:domain:0.0.1-SNAPSHOT"
+//    implementation "org.dyson:security:0.0.1-SNAPSHOT"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}

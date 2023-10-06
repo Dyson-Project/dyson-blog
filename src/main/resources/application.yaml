@@ -1,0 +1,36 @@
+spring:
+  main:
+    web-application-type: reactive
+  cassandra:
+    contact-points: ${CASSANDRA_CONTACT_POINTS:14.225.205.235}
+    port: ${CASSANDRA_PORT:39042}
+    keyspace-name: ${CASSANDRA_KEYSPACE_NAME:dyson_blog}
+    username: ${CASSANDRA_USERNAME:cassandra}
+    password: ${CASSANDRA_PASSWORD:P@ssword789}
+    local-datacenter: ${CASSANDRA_LOCAL_DATACENTER:datacenter1}
+    schema-action: create_if_not_exists
+  data:
+    web:
+      pageable:
+        default-page-size: 20
+logging:
+  level:
+    org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate: debug
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui/index.html
+#  api-docs:
+#    path: /api-docs
+#  show-actuator: false
+#  show-login-endpoint: true
+#  show-oauth2-endpoints: true
+#  swagger-ui:
+#    operations-sorter: alpha
+#    tags-sorter: alpha
+#    config-url: ${server.path}/api-docs/swagger-config
+#    url: ${server.path}/api-docs
+#    disable-swagger-default-url: true
+#    oauth2-redirect-url: ${server.path}/swagger-ui/oauth2-redirect.html
+#  server-urls:
+#    - ${server.path}
+#    - ${application.domain.server}
