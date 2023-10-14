@@ -15,6 +15,9 @@ ext {
 //        "-XX:+UseParallelGC",
 "--enable-preview",
 "--add-opens=java.base/java.net=ALL-UNNAMED",
+"--add-opens=java.base/java.base/sun.net.www.protocol.http=ALL-UNNAMED",
+"--add-opens=java.base/java.base/sun.net.www.protocol.https=ALL-UNNAMED",
+"--add-opens=java.base/java.net=ALL-UNNAMED",
 "--add-opens=java.base/java.io=ALL-UNNAMED",
 "--add-opens=java.base/java.lang=ALL-UNNAMED",
 "--add-opens=java.base/java.nio=ALL-UNNAMED",
@@ -61,7 +64,6 @@ task srcJar(type: Jar) {
 
 dependencies {
     implementation platform("org.axonframework:axon-bom:4.8.0")
-
 
     implementation 'org.springframework.boot:spring-boot-starter-data-cassandra-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-web'

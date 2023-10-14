@@ -5,7 +5,7 @@ import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
-import java.net.URL
+import org.springframework.data.cassandra.core.mapping.Table
 import java.time.Instant
 import java.util.*
 
@@ -27,6 +27,7 @@ enum class PostType {
 }
 
 
+@Table
 data class Post(
     @PrimaryKeyColumn(ordinal = 0, type = PARTITIONED)
     val id: UUID = UUID.randomUUID(),
@@ -34,7 +35,7 @@ data class Post(
     val type: PostType,
     val title: String,
     val point: Int = 0,
-    val url: URL?,
+    val url: String?,
     val content: String
 ) {
     @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
@@ -47,7 +48,7 @@ data class Post(
         category: String,
         type: PostType,
         title: String,
-        url: URL?,
+        url: String?,
         content: String
     ) : this(
         categoryId = category,

@@ -1,6 +1,5 @@
 package org.dyson.blog;
 
-import com.datastax.oss.driver.api.core.cql.PagingState;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dyson.blog.dto.PostDto;
@@ -30,14 +29,16 @@ public class BlogController {
     private final ReactivePostRepository reactiveRepository;
 
     @GetMapping
-    Mono<Slice<Post>> list(@ParameterObject Pageable pageable, Optional<String> pagingState) {
+    Slice<Post> list(@ParameterObject Pageable pageable) {
         var page = CassandraPageRequest.of(
             pageable,
-            pagingState.map(PagingState::fromString)
-                .map(PagingState::getRawPagingState)
-                .orElse(null)
+            null
+//            pagingState.map(PagingState::fromString)
+//                .map(PagingState::getRawPagingState)
+//                .orElse(null)
         );
-        return Mono.just(repository.findAll(pageable));
+        log.debug("-----> {}",pageable.getPageSize());
+        return repository.findAll(CassandraPageRequest.first(1));
     }
 
     @PostMapping
