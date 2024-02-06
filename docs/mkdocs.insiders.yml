@@ -1,0 +1,7 @@
+plugins:
+  social:
+    cards_layout_dir: ../layouts
+    cards_layout: custom
+    cards_layout_options:
+      logo: ../docs/img/icon-white.svg
+  typeset:
