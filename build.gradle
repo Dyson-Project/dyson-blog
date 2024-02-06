@@ -20,14 +20,13 @@ version = '0.0.1-SNAPSHOT'
 repositories {
     mavenCentral()
     maven { url "https://reposilite.tiktzuki.com/snapshots" }
-    maven {
-        url "https://packages.confluent.io/maven" // Detect generated grpc classes
-    }
+    maven { url "https://packages.confluent.io/maven" }
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
+
 tasks.withType(JavaCompile).tap {
     configureEach {
         options.compilerArgs.addAll(defaultJvmArgs)
@@ -50,14 +49,16 @@ dependencies {
     implementation platform("org.axonframework:axon-bom:4.8.0")
 
     implementation 'org.springframework.boot:spring-boot-starter-data-cassandra-reactive'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    compileOnly 'org.projectlombok:lombok'
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0"
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0"
+    compileOnly 'org.projectlombok:lombok'
 
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     runtimeOnly 'io.github.microutils:kotlin-logging-jvm:3.0.5'
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"

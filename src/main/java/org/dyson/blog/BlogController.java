@@ -12,9 +12,9 @@ import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -30,6 +30,12 @@ public class BlogController {
 
     @GetMapping
     Slice<Post> list(@ParameterObject Pageable pageable) {
+        log.debug("-----> {}", pageable.getPageSize());
+        return repository.findAll(CassandraPageRequest.first(1));
+    }
+
+    @GetMapping("/reactive")
+    Flux<Post> listReactive(@ParameterObject Pageable pageable) {
         var page = CassandraPageRequest.of(
             pageable,
             null
@@ -37,31 +43,29 @@ public class BlogController {
 //                .map(PagingState::getRawPagingState)
 //                .orElse(null)
         );
-        log.debug("-----> {}",pageable.getPageSize());
-        return repository.findAll(CassandraPageRequest.first(1));
+        return reactiveRepository.findAll(pageable);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public void create(@RequestBody PostDto body) {
-        reactiveRepository.insert(new Post(
+    public Mono<Post> create(@RequestBody PostDto body) {
+        return reactiveRepository.insert(new Post(
             body.getCategoryId(),
             PostType.POST,
             body.getTitle(),
             null,
             body.getContent()
-        )).block();
+        ));
     }
 
     @GetMapping("/{postId}")
     Mono<Post> get(@PathVariable UUID postId) {
-        var post = reactiveRepository.findById(postId);
-        return post;
+        return reactiveRepository.findByKeys_Id(postId);
     }
 
     @DeleteMapping("/{postId}")
     @ResponseStatus(NO_CONTENT)
-    public void delete(@PathVariable UUID postId) {
-        reactiveRepository.deleteById(postId).block();
+    public Mono<Void> delete(@PathVariable UUID postId) {
+        return reactiveRepository.deleteByKeys_Id(postId);
     }
 }

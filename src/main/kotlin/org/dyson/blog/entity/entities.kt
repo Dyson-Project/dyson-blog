@@ -1,11 +1,16 @@
 package org.dyson.blog.entity
 
 import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
+import org.springframework.data.domain.Persistable
 import java.time.Instant
 import java.util.*
 
@@ -29,20 +34,28 @@ enum class PostType {
 
 @Table
 data class Post(
-    @PrimaryKeyColumn(ordinal = 0, type = PARTITIONED)
-    val id: UUID = UUID.randomUUID(),
+    @PrimaryKey
+    val keys: PostKeys = PostKeys(),
     val categoryId: String,
     val type: PostType,
     val title: String,
     val point: Int = 0,
     val url: String?,
-    val content: String
-) {
-    @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
-    var time: Instant = Instant.now();
+    val content: String,
+) : Persistable<PostKeys> {
 
     @CreatedBy
     var createdBy: String? = null;
+
+    @LastModifiedBy
+    var lastModifiedBy: String? = null;
+
+    @LastModifiedDate
+    var lastModifiedDate: Instant? = null;
+
+    @Transient
+    @get:JvmName("new")
+    var isNew: Boolean = true;
 
     constructor(
         category: String,
@@ -57,4 +70,18 @@ data class Post(
         url = url,
         content = content,
     )
+
+    override fun getId(): PostKeys = keys
+
+    override fun isNew(): Boolean = isNew
+
 }
+
+@PrimaryKeyClass
+data class PostKeys(
+    @PrimaryKeyColumn(ordinal = 0, type = PARTITIONED)
+    val id: UUID = UUID.randomUUID(),
+    @CreatedDate
+    @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
+    var createdDate: Instant? = null,
+)
