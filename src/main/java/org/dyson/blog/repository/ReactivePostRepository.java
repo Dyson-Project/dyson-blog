@@ -1,5 +1,6 @@
 package org.dyson.blog.repository;
 
+import org.dyson.blog.dto.PostSummaryDto;
 import org.dyson.blog.entity.Post;
 import org.dyson.blog.entity.PostKeys;
 import org.springframework.data.cassandra.repository.Query;
@@ -12,10 +13,10 @@ import java.util.UUID;
 
 public interface ReactivePostRepository extends ReactiveCassandraRepository<Post, PostKeys> {
 
-    @Query("select * from post")
-    Flux<Post> findAll(Pageable pageable);
+    @Query("select postId, title, lastModifiedDate from post")
+    Flux<PostSummaryDto> findAll(Pageable pageable);
 
-    Mono<Post> findByKeys_Id(UUID id);
+    Mono<Post> findByKeys_PostId(UUID id);
 
-    Mono<Void> deleteByKeys_Id(UUID postId);
+    Mono<Void> deleteByKeys_PostId(UUID postId);
 }

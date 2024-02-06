@@ -2,7 +2,9 @@ package org.dyson.blog;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dyson.blog.dto.CreatePostRequest;
 import org.dyson.blog.dto.PostDto;
+import org.dyson.blog.dto.PostSummaryDto;
 import org.dyson.blog.entity.Post;
 import org.dyson.blog.entity.PostType;
 import org.dyson.blog.repository.PostRepository;
@@ -29,13 +31,14 @@ public class BlogController {
     private final ReactivePostRepository reactiveRepository;
 
     @GetMapping
-    Slice<Post> list(@ParameterObject Pageable pageable) {
+    Slice<PostSummaryDto> list(@ParameterObject Pageable pageable) {
         log.debug("-----> {}", pageable.getPageSize());
-        return repository.findAll(CassandraPageRequest.first(1));
+        return repository.findAll(CassandraPageRequest.first(1))
+            .map(p -> null);
     }
 
     @GetMapping("/reactive")
-    Flux<Post> listReactive(@ParameterObject Pageable pageable) {
+    Flux<PostSummaryDto> listReactive(@ParameterObject Pageable pageable) {
         var page = CassandraPageRequest.of(
             pageable,
             null
@@ -48,24 +51,25 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Mono<Post> create(@RequestBody PostDto body) {
+    public Mono<PostDto> create(@RequestBody CreatePostRequest request) {
         return reactiveRepository.insert(new Post(
-            body.getCategoryId(),
+            request.getCategoryId(),
             PostType.POST,
-            body.getTitle(),
+            request.getTitle(),
             null,
-            body.getContent()
-        ));
+            request.getContent()
+        )).map(PostDto::new);
     }
 
     @GetMapping("/{postId}")
-    Mono<Post> get(@PathVariable UUID postId) {
-        return reactiveRepository.findByKeys_Id(postId);
+    Mono<PostDto> get(@PathVariable UUID postId) {
+        return reactiveRepository.findByKeys_PostId(postId)
+            .map(PostDto::new);
     }
 
     @DeleteMapping("/{postId}")
     @ResponseStatus(NO_CONTENT)
     public Mono<Void> delete(@PathVariable UUID postId) {
-        return reactiveRepository.deleteByKeys_Id(postId);
+        return reactiveRepository.deleteByKeys_PostId(postId);
     }
 }

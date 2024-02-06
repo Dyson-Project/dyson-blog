@@ -36,12 +36,12 @@ enum class PostType {
 data class Post(
     @PrimaryKey
     val keys: PostKeys = PostKeys(),
-    val categoryId: String,
-    val type: PostType,
-    val title: String,
-    val point: Int = 0,
-    val url: String?,
-    val content: String,
+    var categoryId: String?,
+    var type: PostType?,
+    var title: String,
+    var point: Int = 0,
+    var url: String?,
+    var content: String?,
 ) : Persistable<PostKeys> {
 
     @CreatedBy
@@ -80,7 +80,7 @@ data class Post(
 @PrimaryKeyClass
 data class PostKeys(
     @PrimaryKeyColumn(ordinal = 0, type = PARTITIONED)
-    val id: UUID = UUID.randomUUID(),
+    val postId: UUID = UUID.randomUUID(),
     @CreatedDate
     @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
     var createdDate: Instant? = null,

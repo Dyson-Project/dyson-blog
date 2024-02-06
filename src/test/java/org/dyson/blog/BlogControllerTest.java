@@ -1,6 +1,6 @@
 package org.dyson.blog;
 
-import org.dyson.blog.entity.Post;
+import org.dyson.blog.dto.PostSummaryDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @WebMvcTest(BlogController.class)
-public class BlogControllerTest {
+class BlogControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -27,9 +27,9 @@ public class BlogControllerTest {
     private BlogController blogController;
 
     @Test
-    public void getPosts() throws Exception {
+    void getPosts() throws Exception {
         var pageable = PageRequest.of(0, 20);
-        Slice<Post> posts = new PageImpl<>(List.of(), pageable, 0);
+        Slice<PostSummaryDto> posts = new PageImpl<>(List.of(), pageable, 0);
         given(blogController.list(pageable))
             .willReturn(posts);
         mvc.perform(get("/api/v1/posts")
