@@ -1,34 +1,16 @@
 plugins {
-    id 'java'
     id "idea"
-    id 'org.springframework.boot' version '3.2.0-SNAPSHOT'
-    id 'io.spring.dependency-management' version '1.1.3'
-    id "com.google.protobuf" version "0.9.3"
-    id "org.jetbrains.kotlin.jvm" version "1.9.0"
-    id "org.jetbrains.kotlin.plugin.lombok" version "1.9.0"
-    id "org.jetbrains.kotlin.plugin.jpa" version "1.9.0"
+    id "java-library"
+    id "org.springframework.boot" version "3.2.1"
+    id "io.spring.dependency-management" version "1.1.4"
+    id "com.google.protobuf" version "0.9.4"
+    id "org.jetbrains.kotlin.jvm" version "1.9.21"
+    id "org.jetbrains.kotlin.plugin.lombok" version "1.9.21"
+    id "org.jetbrains.kotlin.plugin.jpa" version "1.9.21"
 }
 
 ext {
     defaultJvmArgs = [
-//        "-Xss4m",
-//        "-XX:+UseParallelGC",
-"--enable-preview",
-"--add-opens=java.base/java.net=ALL-UNNAMED",
-"--add-opens=java.base/java.base/sun.net.www.protocol.http=ALL-UNNAMED",
-"--add-opens=java.base/java.base/sun.net.www.protocol.https=ALL-UNNAMED",
-"--add-opens=java.base/java.net=ALL-UNNAMED",
-"--add-opens=java.base/java.io=ALL-UNNAMED",
-"--add-opens=java.base/java.lang=ALL-UNNAMED",
-"--add-opens=java.base/java.nio=ALL-UNNAMED",
-"--add-opens=java.base/java.nio.file=ALL-UNNAMED",
-"--add-opens=java.base/java.util=ALL-UNNAMED",
-"--add-opens=java.base/java.util.concurrent=ALL-UNNAMED",
-"--add-opens=java.base/java.util.regex=ALL-UNNAMED",
-"--add-opens=java.base/java.util.stream=ALL-UNNAMED",
-"--add-opens=java.base/java.text=ALL-UNNAMED",
-"--add-opens=java.base/java.time=ALL-UNNAMED",
-"--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED"
     ]
 }
 
@@ -38,26 +20,28 @@ version = '0.0.1-SNAPSHOT'
 repositories {
     mavenCentral()
     maven { url "https://reposilite.tiktzuki.com/snapshots" }
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
     maven {
         url "https://packages.confluent.io/maven" // Detect generated grpc classes
     }
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
 }
-tasks.withType(JavaCompile) {
-    options.compilerArgs.addAll(defaultJvmArgs)
+tasks.withType(JavaCompile).tap {
+    configureEach {
+        options.compilerArgs.addAll(defaultJvmArgs)
+    }
 }
-task integrationTest(type: Test, dependsOn: compileJava) {
+tasks.register('integrationTest', Test) {
+    dependsOn compileJava
     jvmArgs(defaultJvmArgs)
 }
-task unitTest(type: Test, dependsOn: compileJava) {
+tasks.register('unitTest', Test) {
+    dependsOn compileJava
     jvmArgs(defaultJvmArgs)
 }
-task srcJar(type: Jar) {
+tasks.register('srcJar', Jar) {
     archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
@@ -78,11 +62,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "io.github.microutils:kotlin-logging-jvm:3.0.5"
 
-//    implementation "org.dyson:core:0.0.1-SNAPSHOT"
-//    implementation "org.dyson:domain:0.0.1-SNAPSHOT"
-//    implementation "org.dyson:security:0.0.1-SNAPSHOT"
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.security:spring-security-test"
+    testImplementation "io.projectreactor:reactor-test"
 }
 
 test {

@@ -20,8 +20,6 @@ public class BlogRepositoryIntegrationTest {
     @Autowired
     private ReactivePostRepository reactiveBlogRepository;
 
-    static List<Post> posts = List.of(new Post());
-
     @BeforeEach
     public void setUp() {
         // given
