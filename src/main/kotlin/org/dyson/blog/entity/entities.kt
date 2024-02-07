@@ -1,5 +1,6 @@
 package org.dyson.blog.entity
 
+import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -12,11 +13,10 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 import org.springframework.data.domain.Persistable
 import java.time.Instant
-import java.util.*
 
 data class CommentByPost(
     @PrimaryKey
-    val blogId: UUID,
+    val blogId: String,
     val content: String,
     val reply: List<CommentByPost>
 ) {
@@ -31,6 +31,47 @@ enum class PostType {
     LINK, POST
 }
 
+@Table
+data class Draft(
+    @PrimaryKey
+    val keys: DraftKeys = DraftKeys(),
+    val title: String?,
+    val content: String?
+) : Persistable<DraftKeys> {
+    @CreatedBy
+    var createdBy: String? = null;
+
+    @LastModifiedBy
+    var lastModifiedBy: String? = null;
+
+    @LastModifiedDate
+    var lastModifiedDate: Instant? = null;
+
+    @Transient
+    @get:JvmName("new")
+    var isNew: Boolean = true;
+
+    constructor(newTitle: String?, newContent: String?) : this(
+        title = newTitle, content = newContent
+    )
+
+    override fun getId(): DraftKeys = keys
+
+    override fun isNew(): Boolean = isNew
+}
+
+@PrimaryKeyClass
+data class DraftKeys(
+    @PrimaryKeyColumn(ordinal = 0, type = PARTITIONED)
+    val postId: String = RandomStringUtils.randomAlphanumeric(12),
+    @CreatedDate
+    @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
+    var createdDate: Instant? = null,
+)
+
+enum class PostStatus {
+    PUBLISHED, DELETED
+}
 
 @Table
 data class Post(
@@ -42,6 +83,7 @@ data class Post(
     var point: Int = 0,
     var url: String?,
     var content: String?,
+    var status: PostStatus = PostStatus.PUBLISHED,
 ) : Persistable<PostKeys> {
 
     @CreatedBy
@@ -80,7 +122,7 @@ data class Post(
 @PrimaryKeyClass
 data class PostKeys(
     @PrimaryKeyColumn(ordinal = 0, type = PARTITIONED)
-    val postId: UUID = UUID.randomUUID(),
+    val postId: String = RandomStringUtils.randomAlphanumeric(12),
     @CreatedDate
     @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
     var createdDate: Instant? = null,

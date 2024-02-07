@@ -1,4 +1,4 @@
-import Layout from "../../components/layout";
+import Layout from "../../components/Layout";
 import {getAllPostIds, getPostData} from "../../libs/posts";
 import Head from "next/head";
 import Date from "../../components/Date";
@@ -6,7 +6,7 @@ import Date from "../../components/Date";
 import utilStyles from "../../styles/utils.module.css";
 
 export default function Post({post}) {
-    return <Layout>
+    return <Layout home={false}>
         <Head>
             <title>{post.title}</title>
         </Head>

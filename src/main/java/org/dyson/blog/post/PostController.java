@@ -1,14 +1,15 @@
-package org.dyson.blog;
+package org.dyson.blog.post;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dyson.blog.dto.CreateDraftRequest;
 import org.dyson.blog.dto.CreatePostRequest;
 import org.dyson.blog.dto.PostDto;
 import org.dyson.blog.dto.PostSummaryDto;
+import org.dyson.blog.entity.Draft;
 import org.dyson.blog.entity.Post;
 import org.dyson.blog.entity.PostType;
-import org.dyson.blog.repository.PostRepository;
-import org.dyson.blog.repository.ReactivePostRepository;
+import org.dyson.blog.draft.DraftRepository;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +17,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.UUID;
+import org.dyson.blog.dto.DraftDto;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -26,9 +26,10 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RestController
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
-public class BlogController {
-    private final PostRepository repository;
-    private final ReactivePostRepository reactiveRepository;
+public class PostController {
+    final PostRepository repository;
+    final ReactivePostRepository reactiveRepository;
+    final PostService postService;
 
     @GetMapping
     Slice<PostSummaryDto> list(@ParameterObject Pageable pageable) {
@@ -38,7 +39,8 @@ public class BlogController {
     }
 
     @GetMapping("/reactive")
-    Flux<PostSummaryDto> listReactive(@ParameterObject Pageable pageable) {
+    Flux<PostSummaryDto> listReactive(@RequestParam Boolean isDraft,
+                                      @ParameterObject Pageable pageable) {
         var page = CassandraPageRequest.of(
             pageable,
             null
@@ -46,30 +48,24 @@ public class BlogController {
 //                .map(PagingState::getRawPagingState)
 //                .orElse(null)
         );
-        return reactiveRepository.findAll(pageable);
+            return reactiveRepository.findAll(pageable);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
     public Mono<PostDto> create(@RequestBody CreatePostRequest request) {
-        return reactiveRepository.insert(new Post(
-            request.getCategoryId(),
-            PostType.POST,
-            request.getTitle(),
-            null,
-            request.getContent()
-        )).map(PostDto::new);
+        return postService.publishPost(request);
     }
 
     @GetMapping("/{postId}")
-    Mono<PostDto> get(@PathVariable UUID postId) {
+    Mono<PostDto> get(@PathVariable String postId) {
         return reactiveRepository.findByKeys_PostId(postId)
             .map(PostDto::new);
     }
 
     @DeleteMapping("/{postId}")
     @ResponseStatus(NO_CONTENT)
-    public Mono<Void> delete(@PathVariable UUID postId) {
+    public Mono<Void> delete(@PathVariable String postId) {
         return reactiveRepository.deleteByKeys_PostId(postId);
     }
 }

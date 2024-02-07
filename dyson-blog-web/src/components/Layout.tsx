@@ -4,6 +4,8 @@ import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import {ReactElement} from "react";
+import Footer from "@/components/blog/Footer";
+import Header from "@/components/blog/Header";
 
 const name = "TikTuzki";
 export const siteTitle = "Next.js Sample Website";
@@ -14,6 +16,7 @@ interface LayoutProps {
 }
 
 export default function Layout({children, home}: LayoutProps) {
+
     return (
         <div className={styles.container}>
             <Head>
@@ -31,6 +34,13 @@ export default function Layout({children, home}: LayoutProps) {
                 <meta name="og:title" content={siteTitle}/>
                 <meta name="twitter:card" content="summary_large_image"/>
             </Head>
+            <Header sections={[
+                {title: "Section title", url: "/stuff"},
+                {title: "Section title 2", url: "/stuff2"},
+                {title: "Section title 3", url: "/stuff3"}
+            ]}
+                    title={""}
+            />
             <header className={styles.header}>
                 {home ? (
                     <>
@@ -70,6 +80,7 @@ export default function Layout({children, home}: LayoutProps) {
                     <Link href="/">← Back to home</Link>
                 </div>
             )}
+            <Footer description={"Footer description"} title={"Footer title"}/>
         </div>
     );
 }

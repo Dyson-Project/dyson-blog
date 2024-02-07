@@ -12,7 +12,13 @@ export interface Post {
     date: string
 }
 
-export function getSortedPostsData() {
+export interface PostSummary {
+    id: string,
+    title: string,
+    lastModifiedDate: string
+}
+
+export async function getSortedPostsData() {
     // Get file names under /posts
     const fileNames = fs.readdirSync(postsDirectory);
     const allPostsData: Post[] = fileNames.map((fileName) => {
@@ -44,7 +50,6 @@ export function getSortedPostsData() {
 
 export async function getAllPostIds() {
     const fileNames = fs.readdirSync(postsDirectory);
-
     return fileNames.map(fileName => {
         return {
             params: {

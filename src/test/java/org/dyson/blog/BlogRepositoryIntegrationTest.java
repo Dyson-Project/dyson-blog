@@ -1,16 +1,12 @@
 package org.dyson.blog;
 
-import org.dyson.blog.entity.Post;
-import org.dyson.blog.repository.PostRepository;
-import org.dyson.blog.repository.ReactivePostRepository;
+import org.dyson.blog.post.PostRepository;
+import org.dyson.blog.post.ReactivePostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
 
 @SpringBootTest
 public class BlogRepositoryIntegrationTest {

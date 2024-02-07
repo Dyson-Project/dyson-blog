@@ -1,6 +1,7 @@
 package org.dyson.blog;
 
 import org.dyson.blog.dto.PostSummaryDto;
+import org.dyson.blog.post.PostController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,13 +19,13 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-@WebMvcTest(BlogController.class)
+@WebMvcTest(PostController.class)
 class BlogControllerTest {
 
     @Autowired
     private MockMvc mvc;
     @MockBean
-    private BlogController blogController;
+    private PostController blogController;
 
     @Test
     void getPosts() throws Exception {
