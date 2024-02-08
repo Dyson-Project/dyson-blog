@@ -1,7 +1,7 @@
 import Layout from "../../../components/Layout";
 import Head from "next/head";
 import {useState} from "react";
-import StoryContentSection from "../../../components/StoryContentSection";
+import StoryContentSection from "../../../components/blog/StoryContentSection";
 
 export default function Edit() {
     const [title, setTitle] = useState("");

@@ -33,7 +33,7 @@ export default function Home() {
                     <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
                 </p>
                 <h2 className={utilStyles.headingLg}>Blog</h2>
-                <InfiniteScroll style={utilStyles.list} next={fetchMoreData}
+                <InfiniteScroll style={{}} next={fetchMoreData}
                                 hasMore={true}
                                 loader={<h4>Loading...</h4>}
                                 dataLength={posts.length}>
