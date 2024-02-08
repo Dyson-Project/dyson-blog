@@ -3,20 +3,9 @@ import path from 'path';
 import matter from 'gray-matter';
 import {remark} from "remark";
 import html from "remark-html";
+import {Post} from "@/types/posts";
 
 const postsDirectory = path.join(process.cwd(), 'posts');
-
-export interface Post {
-    id: string,
-    title: string,
-    date: string
-}
-
-export interface PostSummary {
-    id: string,
-    title: string,
-    lastModifiedDate: string
-}
 
 export async function getSortedPostsData() {
     // Get file names under /posts

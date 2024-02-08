@@ -5,12 +5,30 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@draft-js-plugins/alignment':
+    specifier: ^5.0.4
+    version: 5.0.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
+  '@draft-js-plugins/drag-n-drop':
+    specifier: ^4.2.3
+    version: 4.2.3(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
+  '@draft-js-plugins/drag-n-drop-upload':
+    specifier: ^4.2.4
+    version: 4.2.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
   '@draft-js-plugins/editor':
+    specifier: ^4.1.4
+    version: 4.1.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
+  '@draft-js-plugins/focus':
+    specifier: ^4.1.5
+    version: 4.1.5(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
+  '@draft-js-plugins/image':
     specifier: ^4.1.4
     version: 4.1.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
   '@draft-js-plugins/inline-toolbar':
     specifier: ^4.2.1
     version: 4.2.1(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
+  '@draft-js-plugins/resizeable':
+    specifier: ^5.0.4
+    version: 5.0.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
   '@draft-js-plugins/side-toolbar':
     specifier: ^5.0.2
     version: 5.0.2(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
@@ -1734,8 +1752,22 @@ packages:
       postcss-selector-parser: 6.0.15
     dev: false
 
+  /@draft-js-plugins/alignment@5.0.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-DMYynS4DF5P1/K/puS5HQAs77txjQvJnXyAO2Hmdxue09AaF7jgsmParL0qAvWz/1AiA+p9Nw8eVaSJC0QPk1Q==}
+    peerDependencies:
+      draft-js: ^0.10.1 || ^0.11.0
+      react: ^16.8.0 || ^17.0.0 || >=18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || >=18.0.0
+    dependencies:
+      '@draft-js-plugins/buttons': 4.3.3(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
+      '@draft-js-plugins/utils': 4.2.1(draft-js@0.11.5)
+      draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@draft-js-plugins/buttons@4.3.3(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-XGQBiRXYLGAO6uBrajpg1Tl42FD7o12oT9bM+ikciPMXdHOyJ6y8cJhY4YZI4AYhY37MNf6bdh9/p81TtIpcHA== }
+    resolution: {integrity: sha512-XGQBiRXYLGAO6uBrajpg1Tl42FD7o12oT9bM+ikciPMXdHOyJ6y8cJhY4YZI4AYhY37MNf6bdh9/p81TtIpcHA==}
     peerDependencies:
       draft-js: ^0.10.1 || ^0.11.0
       react: ^16.8.0 || ^17.0.0 || >=18.0.0
@@ -1743,6 +1775,31 @@ packages:
     dependencies:
       clsx: 1.2.1
       draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@draft-js-plugins/drag-n-drop-upload@4.2.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-A+LCitHyi1EgoVfSTsiHnw3YCzhPhaY5tcDtkEZw3Euf8fWZm6CczLR3xwfLAzxRICSmlVKYg9AKfMZK9zCv4A==}
+    peerDependencies:
+      draft-js: ^0.10.1 || ^0.11.0
+      react: ^16.8.0 || ^17.0.0 || >=18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || >=18.0.0
+    dependencies:
+      draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@draft-js-plugins/drag-n-drop@4.2.3(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-COXJM+u6+zgQe1IzmJri5QbuPps83i9OB7/WWbWU81xM7wJqKS851TnTE9ghP9LWXKhCyYZyCYvM/0QnAi6qqQ==}
+    peerDependencies:
+      draft-js: ^0.10.1 || ^0.11.0
+      react: ^16.8.0 || ^17.0.0 || >=18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || >=18.0.0
+    dependencies:
+      draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      immutable: 3.7.6
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -1761,8 +1818,35 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@draft-js-plugins/focus@4.1.5(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-wHDi8dM5SL9w98pqc4MhzzbCmaK1zDsknfdu+6sfGyVAwAUTBtD2OMbAYltWfOMKGgIrM5hhKaSgSQnJ3Jf0Fg==}
+    peerDependencies:
+      draft-js: ^0.11.0
+      react: ^16.8.0 || ^17.0.0 || >=18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || >=18.0.0
+    dependencies:
+      clsx: 1.2.1
+      draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      immutable: 3.7.6
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@draft-js-plugins/image@4.1.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-gLEYjhG2n9v5Y+e9sH9OD0/XVbHOaBwSBo3loXScmwSOTFP+9GBwp6HxCXvnBJj15SOQqGVvEkf6W3Jlzu/8ng==}
+    peerDependencies:
+      draft-js: ^0.10.1 || ^0.11.0
+      react: ^16.8.0 || ^17.0.0 || >=18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || >=18.0.0
+    dependencies:
+      clsx: 1.2.1
+      draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@draft-js-plugins/inline-toolbar@4.2.1(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-+LNhv9UkXhKybtUVHFMh7yvp44G3HKv8E5I6BLA3el+n67mrc3I4Frm/LE/wxAJC0tIrT2sjWvg8EFs3S9CRZA== }
+    resolution: {integrity: sha512-+LNhv9UkXhKybtUVHFMh7yvp44G3HKv8E5I6BLA3el+n67mrc3I4Frm/LE/wxAJC0tIrT2sjWvg8EFs3S9CRZA==}
     peerDependencies:
       draft-js: ^0.10.1 || ^0.11.0
       react: ^16.8.0 || ^17.0.0 || >=18.0.0
@@ -1775,8 +1859,20 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@draft-js-plugins/resizeable@5.0.4(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-XcVoKc+kehvFZViu5akCrAFuZRXUU6hmmF/zE0tYw1/yZMNgsdtDm54WivYzDArW9OgGLSgKprsl32pLyCmj0Q==}
+    peerDependencies:
+      draft-js: ^0.10.1 || ^0.11.0
+      react: ^16.8.0 || ^17.0.0 || >=18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || >=18.0.0
+    dependencies:
+      draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@draft-js-plugins/side-toolbar@5.0.2(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-rEg74nA4JSAdqlQ9MaEKub6avXPHO0Si71/A7dO+OPlPfQ5HI2tSaOTgTGkorFYnikPMLcAbZKjY90WZ8B6+PA== }
+    resolution: {integrity: sha512-rEg74nA4JSAdqlQ9MaEKub6avXPHO0Si71/A7dO+OPlPfQ5HI2tSaOTgTGkorFYnikPMLcAbZKjY90WZ8B6+PA==}
     peerDependencies:
       draft-js: ^0.11.0
       react: ^16.8.0 || ^17.0.0 || >=18.0.0
@@ -1793,7 +1889,7 @@ packages:
     dev: false
 
   /@draft-js-plugins/sticker@4.1.3(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-P1FtOhaGuH2vxEfkZXWA4UUM+DxgtnC/QeIXqk3oP3F9W1No6IsLv9lDl0QFVKz2OkIIC7s5PG4P8oPqIJcoAQ== }
+    resolution: {integrity: sha512-P1FtOhaGuH2vxEfkZXWA4UUM+DxgtnC/QeIXqk3oP3F9W1No6IsLv9lDl0QFVKz2OkIIC7s5PG4P8oPqIJcoAQ==}
     peerDependencies:
       draft-js: ^0.10.1 || ^0.11.0
       react: ^16.8.0 || ^17.0.0 || >=18.0.0
@@ -1806,7 +1902,7 @@ packages:
     dev: false
 
   /@draft-js-plugins/utils@4.2.1(draft-js@0.11.5):
-    resolution: { integrity: sha512-FtGtBM+zSPgwaaAujULi0eCixlOBsqRezhOcZvBi3y0A/LkvNtKhykEOzd9/96qnGVT54iMiOJb+hw62yk/CCw== }
+    resolution: {integrity: sha512-FtGtBM+zSPgwaaAujULi0eCixlOBsqRezhOcZvBi3y0A/LkvNtKhykEOzd9/96qnGVT54iMiOJb+hw62yk/CCw==}
     peerDependencies:
       draft-js: ^0.10.1 || ^0.11.0
     dependencies:
@@ -2938,7 +3034,7 @@ packages:
     dev: false
 
   /@types/draft-js@0.11.17:
-    resolution: { integrity: sha512-th0OwSPftG2r5rvGxS7nt8I7hcWMlrQ9OJcNx6MdXAwO797W78IGEsGWonO+turVBWEd3qylZRGBVtpEX9vSYQ== }
+    resolution: {integrity: sha512-th0OwSPftG2r5rvGxS7nt8I7hcWMlrQ9OJcNx6MdXAwO797W78IGEsGWonO+turVBWEd3qylZRGBVtpEX9vSYQ==}
     dependencies:
       '@types/react': 18.2.54
       immutable: 3.7.6
@@ -4290,8 +4386,8 @@ packages:
     dev: false
 
   /clsx@1.2.1:
-    resolution: { integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg== }
-    engines: { node: '>=6' }
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
     dev: false
 
   /clsx@2.1.0:
@@ -4461,7 +4557,7 @@ packages:
     dev: false
 
   /core-js@2.6.12:
-    resolution: { integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ== }
+    resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
     deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
@@ -4803,7 +4899,7 @@ packages:
     dev: false
 
   /decorate-component-with-props@1.2.1(react@18.2.0):
-    resolution: { integrity: sha512-X2hZBnVHZAZQHG+g3Ce97SBtog1Vglzg7sPNbUY5XKmmgd3NVAiOHviw9hd7GOJIDrQ1slfwsmkbKQxESWFy7Q== }
+    resolution: {integrity: sha512-X2hZBnVHZAZQHG+g3Ce97SBtog1Vglzg7sPNbUY5XKmmgd3NVAiOHviw9hd7GOJIDrQ1slfwsmkbKQxESWFy7Q==}
     peerDependencies:
       react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -5020,7 +5116,7 @@ packages:
     dev: false
 
   /draft-js-plugins-editor@2.1.1(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-fKGe71irNvFHJ5L/lUrh+3vPkBNq0de6x+cgiZUJ9zQERc5KPBtGXIFiarLFVHyrRTCPq+K6xmgfFSAERaFHPw== }
+    resolution: {integrity: sha512-fKGe71irNvFHJ5L/lUrh+3vPkBNq0de6x+cgiZUJ9zQERc5KPBtGXIFiarLFVHyrRTCPq+K6xmgfFSAERaFHPw==}
     deprecated: use @draft-js-plugins/editor >=v4 instead
     peerDependencies:
       draft-js: ^0.10.1
@@ -5038,7 +5134,7 @@ packages:
     dev: false
 
   /draft-js@0.11.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-RlHcoDtblwCD6Bw2ay3D0dTLA6lH8862OcdJrHGnYrY5JjlitzSzGvGQwqqumVvbGUNDSZLD3FyNpSs4z5WIUg== }
+    resolution: {integrity: sha512-RlHcoDtblwCD6Bw2ay3D0dTLA6lH8862OcdJrHGnYrY5JjlitzSzGvGQwqqumVvbGUNDSZLD3FyNpSs4z5WIUg==}
     peerDependencies:
       react: ^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0
       react-dom: ^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0
@@ -5051,7 +5147,7 @@ packages:
     dev: false
 
   /draftail@1.4.1(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-JaVnNngJmoon31Mb/c/RLHaR00WFjIb80tRx+7a/l0LEtYK6zRbtXUNOGKEPqysTSnXLVb0VmWPkaC/DUPk4ww== }
+    resolution: {integrity: sha512-JaVnNngJmoon31Mb/c/RLHaR00WFjIb80tRx+7a/l0LEtYK6zRbtXUNOGKEPqysTSnXLVb0VmWPkaC/DUPk4ww==}
     peerDependencies:
       draft-js: ^0.10.5
       react: ^16.0.0
@@ -5067,7 +5163,7 @@ packages:
     dev: false
 
   /draftjs-conductor@1.2.0(draft-js@0.11.5)(react@18.2.0):
-    resolution: { integrity: sha512-cQ2f/XSvFFmvWfYhEzzhAKyULVG4zmlH+NbL4mOVFkwujTW1AjI0AEG8m4zBnR2U59UnwGLRbiUVIKR51ArlVg== }
+    resolution: {integrity: sha512-cQ2f/XSvFFmvWfYhEzzhAKyULVG4zmlH+NbL4mOVFkwujTW1AjI0AEG8m4zBnR2U59UnwGLRbiUVIKR51ArlVg==}
     peerDependencies:
       draft-js: ^0.10.5 || ^0.11.0
       react: ^16.0.0
@@ -5077,7 +5173,7 @@ packages:
     dev: false
 
   /draftjs-filters@2.5.0(draft-js@0.11.5):
-    resolution: { integrity: sha512-ISJXDj+wQnEQ6krfGjW3B1mr4cd6GkRkDdc/IyCN8mGM/TwaSeb4CkCgnl+MTZsTY6UavhulXeHqRe2eNP1Wyg== }
+    resolution: {integrity: sha512-ISJXDj+wQnEQ6krfGjW3B1mr4cd6GkRkDdc/IyCN8mGM/TwaSeb4CkCgnl+MTZsTY6UavhulXeHqRe2eNP1Wyg==}
     peerDependencies:
       draft-js: ^0.10.4 || ^0.11.0 || ^0.12.0
     dependencies:
@@ -5133,7 +5229,7 @@ packages:
     dev: false
 
   /encoding@0.1.13:
-    resolution: { integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A== }
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
     dependencies:
       iconv-lite: 0.6.3
     dev: false
@@ -5868,7 +5964,7 @@ packages:
     dev: false
 
   /fbjs@1.0.0:
-    resolution: { integrity: sha512-MUgcMEJaFhCaF1QtWGnmq9ZDRAzECTCRAF7O6UZIlAlkTs1SasiX9aP0Iw7wfD2mJ7wDTNfg2w7u5fSCwJk1OA== }
+    resolution: {integrity: sha512-MUgcMEJaFhCaF1QtWGnmq9ZDRAzECTCRAF7O6UZIlAlkTs1SasiX9aP0Iw7wfD2mJ7wDTNfg2w7u5fSCwJk1OA==}
     dependencies:
       core-js: 2.6.12
       fbjs-css-vars: 1.0.2
@@ -5965,7 +6061,7 @@ packages:
       path-exists: 4.0.0
 
   /find-with-regex@1.1.3(draft-js@0.11.5):
-    resolution: { integrity: sha512-zkEVQ1H3PIQL/19ADKt1lCQU4QGM3OneiderUcFgn5EgTm/TnoUh7HxPAwP8w/vXxWSLC6KtpbDQpypJ5+majw== }
+    resolution: {integrity: sha512-zkEVQ1H3PIQL/19ADKt1lCQU4QGM3OneiderUcFgn5EgTm/TnoUh7HxPAwP8w/vXxWSLC6KtpbDQpypJ5+majw==}
     peerDependencies:
       draft-js: ^0.10.5
     dependencies:
@@ -6845,8 +6941,8 @@ packages:
       call-bind: 1.0.6
 
   /is-stream@1.1.0:
-    resolution: { integrity: sha512-uQPm8kcs47jx38atAcWTVxyltQYoPT68y9aWYdV6yWXSyW8mzSat0TL6CiWdZeCdF3KrAvpVtnHbTv4RN+rqdQ== }
-    engines: { node: '>=0.10.0' }
+    resolution: {integrity: sha512-uQPm8kcs47jx38atAcWTVxyltQYoPT68y9aWYdV6yWXSyW8mzSat0TL6CiWdZeCdF3KrAvpVtnHbTv4RN+rqdQ==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /is-stream@2.0.1:
@@ -6908,7 +7004,7 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
   /isomorphic-fetch@2.2.1:
-    resolution: { integrity: sha512-9c4TNAKYXM5PRyVcwUZrF3W09nQ+sO7+jydgs4ZGW9dhsLG2VOlISJABombdQqQRXCwuYG3sYV/puGf5rp0qmA== }
+    resolution: {integrity: sha512-9c4TNAKYXM5PRyVcwUZrF3W09nQ+sO7+jydgs4ZGW9dhsLG2VOlISJABombdQqQRXCwuYG3sYV/puGf5rp0qmA==}
     dependencies:
       node-fetch: 1.7.3
       whatwg-fetch: 3.6.20
@@ -8308,7 +8404,7 @@ packages:
     dev: false
 
   /node-fetch@1.7.3:
-    resolution: { integrity: sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ== }
+    resolution: {integrity: sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==}
     dependencies:
       encoding: 0.1.13
       is-stream: 1.1.0
@@ -9648,7 +9744,7 @@ packages:
     dev: false
 
   /react-fast-compare@3.2.2:
-    resolution: { integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ== }
+    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
     dev: false
 
   /react-infinite-scroll-component@6.1.0(react@18.2.0):
@@ -9672,7 +9768,7 @@ packages:
     dev: false
 
   /react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q== }
+    resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
     peerDependencies:
       '@popperjs/core': ^2.0.0
       react: ^16.8.0 || ^17 || ^18
@@ -11135,7 +11231,7 @@ packages:
     dev: false
 
   /union-class-names@1.0.0:
-    resolution: { integrity: sha512-u7qYld8H+xWZZvb1Y8BhkD0fVmY+ytlm1skpdeYb6+DrSn8jrOC8zY3KMfmkcO3Mdwu/+CyiZrXXpQy0Up+SUA== }
+    resolution: {integrity: sha512-u7qYld8H+xWZZvb1Y8BhkD0fVmY+ytlm1skpdeYb6+DrSn8jrOC8zY3KMfmkcO3Mdwu/+CyiZrXXpQy0Up+SUA==}
     dev: false
 
   /unique-string@2.0.0:
@@ -11308,7 +11404,7 @@ packages:
     dev: false
 
   /warning@4.0.3:
-    resolution: { integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w== }
+    resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
     dependencies:
       loose-envify: 1.4.0
     dev: false

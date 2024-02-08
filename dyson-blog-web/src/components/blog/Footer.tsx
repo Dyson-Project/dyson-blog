@@ -23,10 +23,10 @@ interface FooterProps {
 }
 
 export default function Footer(props: FooterProps) {
-    const { description, title } = props;
+    const {description, title} = props;
 
     return (
-        <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
+        <Box component="footer" sx={{bgcolor: 'background.paper', py: 6}}>
             <Container maxWidth="lg">
                 <Typography variant="h6" align="center" gutterBottom>
                     {title}
@@ -39,7 +39,7 @@ export default function Footer(props: FooterProps) {
                 >
                     {description}
                 </Typography>
-                <Copyright />
+                <Copyright/>
             </Container>
         </Box>
     );
