@@ -35,8 +35,8 @@ enum class PostType {
 data class Draft(
     @PrimaryKey
     val keys: DraftKeys = DraftKeys(),
-    val title: String?,
-    val content: String?
+    var title: String?,
+    var content: String?
 ) : Persistable<DraftKeys> {
     @CreatedBy
     var createdBy: String? = null;

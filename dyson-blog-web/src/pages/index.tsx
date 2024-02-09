@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import utilStyles from "../styles/utils.module.css";
 import Layout, {siteTitle} from "../components/Layout";
-import {PostSummary} from "@/libs/posts";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {useState} from "react";
 import axios, {AxiosResponse} from "axios";
+import {PostSummary} from "@/types/posts";
 
 export default function Home() {
     const [posts, setPosts] = useState<PostSummary[]>([]);
@@ -50,27 +50,7 @@ export default function Home() {
                         ))
                     }
                 </InfiniteScroll>
-                {/*<ul className={utilStyles.list}>*/}
-                {/*    {posts.map(({id, date, title}) => (*/}
-                {/*        <li className={utilStyles.listItem} key={id}>*/}
-                {/*            <Link href={`/posts/${id}`}> {title} </Link>*/}
-                {/*            <br/>*/}
-                {/*            <small className={utilStyles.lightText}>*/}
-                {/*                <Date dateString={date}></Date>*/}
-                {/*            </small>*/}
-                {/*        </li>*/}
-                {/*    ))}*/}
-                {/*</ul>*/}
             </section>
         </Layout>
     );
 }
-
-// export async function getStaticProps() {
-//     const posts = getSortedPostsData();
-//     return {
-//         props: {
-//             posts,
-//         },
-//     };
-// }

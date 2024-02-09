@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dyson.blog.dto.CreateDraftRequest;
 import org.dyson.blog.dto.DraftDto;
-import org.dyson.blog.dto.PostDto;
 import org.dyson.blog.dto.PostSummaryDto;
+import org.dyson.blog.dto.UpdateDraftRequest;
 import org.dyson.blog.entity.Draft;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestController
@@ -39,15 +38,27 @@ public class DraftController {
             .map(DraftDto::new);
     }
 
-    @GetMapping("/{postId}")
-    Mono<PostDto> get(@PathVariable String postId) {
-        return draftRepository.findByKeys_PostId(postId)
-            .map(PostDto::new);
+    @PutMapping("/{id}")
+    @ResponseStatus(OK)
+    Mono<DraftDto> update(@PathVariable String id, @RequestBody UpdateDraftRequest request) {
+        return draftRepository.findByKeys_PostId(id)
+            .doOnNext(draft -> {
+                draft.setTitle(request.getTitle());
+                draft.setContent(request.getContent());
+            })
+            .flatMap(draftRepository::save)
+            .map(DraftDto::new);
     }
 
-    @DeleteMapping("/{postId}")
+    @GetMapping("/{id}")
+    Mono<DraftDto> get(@PathVariable String id) {
+        return draftRepository.findByKeys_PostId(id)
+            .map(DraftDto::new);
+    }
+
+    @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
-    public Mono<Void> delete(@PathVariable String postId) {
-        return draftRepository.deleteByKeys_PostId(postId);
+    public Mono<Void> delete(@PathVariable String id) {
+        return draftRepository.deleteByKeys_PostId(id);
     }
 }

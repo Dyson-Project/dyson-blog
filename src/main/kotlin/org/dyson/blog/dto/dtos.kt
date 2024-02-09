@@ -20,6 +20,11 @@ data class CreateDraftRequest(
     val content: String?
 )
 
+data class UpdateDraftRequest(
+    val title: String?,
+    val content: String?
+)
+
 data class DraftDto(
     val postId: String,
     val title: String?,
