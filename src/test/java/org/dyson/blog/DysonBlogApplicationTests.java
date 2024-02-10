@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DysonBlogApplicationTests {
     @Test
     void contextLoads() {
-        assert (1 == 1) == true;
+        assert true;
     }
 
 }

@@ -1,7 +1,7 @@
 package org.dyson.blog;
 
-import org.dyson.blog.dto.PostSummaryDto;
 import org.dyson.blog.post.PostController;
+import org.dyson.blog.post.PostSummaryDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

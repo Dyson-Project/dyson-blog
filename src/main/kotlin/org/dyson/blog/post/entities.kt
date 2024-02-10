@@ -1,10 +1,7 @@
-package org.dyson.blog.entity
+package org.dyson.blog.post
 
 import org.apache.commons.lang3.RandomStringUtils
-import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedBy
-import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.annotation.*
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -24,50 +21,12 @@ data class CommentByPost(
     val time: Instant = Instant.now()
 
     @CreatedBy
-    var createdBy: String? = null;
+    var createdBy: String? = null
 }
 
 enum class PostType {
     LINK, POST
 }
-
-@Table
-data class Draft(
-    @PrimaryKey
-    val keys: DraftKeys = DraftKeys(),
-    var title: String?,
-    var content: String?
-) : Persistable<DraftKeys> {
-    @CreatedBy
-    var createdBy: String? = null;
-
-    @LastModifiedBy
-    var lastModifiedBy: String? = null;
-
-    @LastModifiedDate
-    var lastModifiedDate: Instant? = null;
-
-    @Transient
-    @get:JvmName("new")
-    var isNew: Boolean = true;
-
-    constructor(newTitle: String?, newContent: String?) : this(
-        title = newTitle, content = newContent
-    )
-
-    override fun getId(): DraftKeys = keys
-
-    override fun isNew(): Boolean = isNew
-}
-
-@PrimaryKeyClass
-data class DraftKeys(
-    @PrimaryKeyColumn(ordinal = 0, type = PARTITIONED)
-    val postId: String = RandomStringUtils.randomAlphanumeric(12),
-    @CreatedDate
-    @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
-    var createdDate: Instant? = null,
-)
 
 enum class PostStatus {
     PUBLISHED, DELETED
@@ -85,19 +44,17 @@ data class Post(
     var content: String?,
     var status: PostStatus = PostStatus.PUBLISHED,
 ) : Persistable<PostKeys> {
+    @Version
+    var version: Long = 0L
 
     @CreatedBy
-    var createdBy: String? = null;
+    var createdBy: String? = null
 
     @LastModifiedBy
-    var lastModifiedBy: String? = null;
+    var lastModifiedBy: String? = null
 
     @LastModifiedDate
-    var lastModifiedDate: Instant? = null;
-
-    @Transient
-    @get:JvmName("new")
-    var isNew: Boolean = true;
+    var lastModifiedDate: Instant? = null
 
     constructor(
         category: String,
@@ -115,7 +72,7 @@ data class Post(
 
     override fun getId(): PostKeys = keys
 
-    override fun isNew(): Boolean = isNew
+    override fun isNew(): Boolean = version == 0L
 
 }
 

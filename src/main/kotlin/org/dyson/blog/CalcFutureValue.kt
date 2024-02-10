@@ -3,18 +3,16 @@ package org.dyson.blog
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class CalcFutureValue {
-
-}
+class CalcFutureValue
 
 fun calcFutureValue(p: BigDecimal, r: BigDecimal, n: Int): BigDecimal {
-    var rs = p;
+    var rs = p
     repeat(n) { i ->
-        var temp = rs * (BigDecimal.ONE.plus(r));
+        var temp = rs * (BigDecimal.ONE.plus(r))
         println("""$i ${rs.setScale(3, RoundingMode.HALF_EVEN).toString().padStart(10)} ${r.toString().padStart(10)} ${temp.setScale(3, RoundingMode.HALF_EVEN).toString().padStart(10)}""")
-        rs = temp;
+        rs = temp
     }
-    return rs;
+    return rs
 }
 
 fun main() {

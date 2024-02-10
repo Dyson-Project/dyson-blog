@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import {Tooltip} from "@mui/material";
+import Image from "next/image";
+import {useAuth} from "@/hooks/useAuth";
 
 interface HeaderProps {
     sections: ReadonlyArray<{
@@ -18,10 +20,14 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
     const {sections, title} = props;
+    const {logout} = useAuth();
 
     return (
-        <React.Fragment>
+        <>
             <Toolbar sx={{borderBottom: 1, borderColor: 'divider'}}>
+                <Link href="/">
+                    <Image src="/images/logo.png" alt={"logo"} width={70} height={70}/>
+                </Link>
                 <Button size="small">Subscribe</Button>
                 <Tooltip title={"Search"}>
                     <IconButton>
@@ -45,8 +51,8 @@ export default function Header(props: HeaderProps) {
                         </IconButton>
                     </Link>
                 </Tooltip>
-                <Button variant="outlined" size="small">
-                    Sign up
+                <Button onClick={logout}>
+                    Logout
                 </Button>
             </Toolbar>
             <Toolbar
@@ -67,6 +73,6 @@ export default function Header(props: HeaderProps) {
                     </Link>
                 ))}
             </Toolbar>
-        </React.Fragment>
+        </>
     );
 }

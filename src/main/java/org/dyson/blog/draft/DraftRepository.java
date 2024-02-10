@@ -1,8 +1,6 @@
 package org.dyson.blog.draft;
 
-import org.dyson.blog.dto.PostSummaryDto;
-import org.dyson.blog.entity.Draft;
-import org.dyson.blog.entity.DraftKeys;
+import org.dyson.blog.post.PostSummaryDto;
 import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 import org.springframework.data.domain.Pageable;
@@ -14,5 +12,6 @@ public interface DraftRepository extends ReactiveCassandraRepository<Draft, Draf
     Flux<PostSummaryDto> findAll(Pageable pageable);
 
     Mono<Draft> findByKeys_PostId(String id);
+
     Mono<Void> deleteByKeys_PostId(String id);
 }

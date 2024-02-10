@@ -1,10 +1,10 @@
 import Button from "@mui/material/Button";
 import {CircularProgress} from "@mui/material";
-import React, {useState} from "react";
+import React, {MouseEventHandler, useEffect, useState} from "react";
 import {ButtonProps} from "@mui/material/Button/Button";
 
 interface CircularProcessButtonProps extends ButtonProps {
-
+    onClick: MouseEventHandler<HTMLButtonElement>
 }
 
 const styles = (theme: any) => ({
@@ -17,15 +17,20 @@ const styles = (theme: any) => ({
 
 const CircularProcessButton = (props: CircularProcessButtonProps) => {
     const [loading, setLoading] = useState<boolean>(false);
-    const onclick = () => {
+    useEffect(() => {
 
+    }, [loading]);
+
+    const onClick: MouseEventHandler<HTMLButtonElement> = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setLoading(true)
+        return props.onClick(event);
     }
 
     return <Button
         variant="contained"
         color="success"
         disabled={loading}
-        onClick={props.on}
+        onClick={onClick}
     >
         <CircularProgress className={styles.circularProgress} size={20}/>
         Save draft

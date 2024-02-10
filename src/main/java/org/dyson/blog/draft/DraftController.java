@@ -2,11 +2,7 @@ package org.dyson.blog.draft;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dyson.blog.dto.CreateDraftRequest;
-import org.dyson.blog.dto.DraftDto;
-import org.dyson.blog.dto.PostSummaryDto;
-import org.dyson.blog.dto.UpdateDraftRequest;
-import org.dyson.blog.entity.Draft;
+import org.dyson.blog.post.PostSummaryDto;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,5 @@
 export interface Draft {
-    postId: string,
+    draftId: string,
     title: string,
     content: string
     createdDate: string,

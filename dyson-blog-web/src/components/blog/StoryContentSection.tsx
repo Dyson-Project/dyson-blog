@@ -1,9 +1,9 @@
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import Editor, {composeDecorators, createEditorStateWithText} from '@draft-js-plugins/editor';
+import React, {MouseEventHandler, useEffect, useMemo, useRef, useState} from "react";
+import Editor, {composeDecorators} from '@draft-js-plugins/editor';
 import createInlineToolbarPlugin from '@draft-js-plugins/inline-toolbar';
 import createSideToolbarPlugin from '@draft-js-plugins/side-toolbar';
 import createStickerPlugin from '@draft-js-plugins/sticker';
-
+import LoadingButton from '@mui/lab/LoadingButton';
 import createFocusPlugin from '@draft-js-plugins/focus';
 import createAlignmentPlugin from '@draft-js-plugins/alignment';
 import createResizeablePlugin from '@draft-js-plugins/resizeable';
@@ -26,18 +26,24 @@ import {
     UnderlineButton,
     UnorderedListButton
 } from "@draft-js-plugins/buttons";
-import Button from "@mui/material/Button";
 import axios, {AxiosResponse} from "axios";
 import {Draft} from "@/types/draft";
-import {CircularProgress} from "@mui/material";
+import SendError from "@/components/error/SendError";
+import StoryTitle from "@/components/blog/StoryTitle";
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const alignmentPlugin = createAlignmentPlugin();
 
+export interface EditingDraft {
+    titleEditorState: EditorState;
+    contentEditorState: EditorState
+}
+
 interface StoryContentSectionProps {
-    postId: string
+    draftId?: string,
+    saveDraft: (editingDraft: EditingDraft) => Promise<AxiosResponse<Draft>> | undefined,
 }
 
 const getDraft = async (draftId: string): Promise<AxiosResponse<Draft>> => {
@@ -52,8 +58,12 @@ const saveDraft = async (draftId: string, title: string, editorState: EditorStat
 }
 
 const StoryContentSection = (props: StoryContentSectionProps) => {
-    const editorRef = useRef<Editor | null>(null);
-    const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+    const [error, setError] = useState<any>(null);
+    const [draftId, setDraftId] = useState<string | undefined>(props.draftId);
+    const [titleEditorState, setTitleEditorState] = useState<EditorState>(EditorState.createEmpty());
+    const contentEditorRef = useRef<Editor | undefined>();
+    const [isSavingDraft, setIsSavingDraft] = useState<boolean>(false);
+    const [contentEditorState, setContentEditorState] = useState<EditorState>(EditorState.createEmpty());
     const [plugins,
         InlineToolbar,
         SideToolbar,
@@ -93,67 +103,87 @@ const StoryContentSection = (props: StoryContentSectionProps) => {
 
     useEffect(() => {
         // fixing issue with SSR https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
-        getDraft(props.postId)
-            .then((value) => {
-                if (value.data.content)
-                    setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(value.data.content))));
-                else
-                    setEditorState(createEditorStateWithText(""));
-            })
+        if (draftId) {
+            getDraft(draftId)
+                .then((value) => {
+                    let data = value.data;
+                    if (data) {
+                        if (data.title) {
+                            console.log("set title");
+                            setTitleEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.title))));
+                        }
+                        if (data.content)
+                            setContentEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.content))));
+                    } else
+                        setError("Not found")
+                })
+                .catch(reason => {
+                    setError(reason)
+                });
+        } else {
+            setContentEditorState(EditorState.createEmpty());
+        }
     }, []);
 
-    const onChange = (value: EditorState): void => {
-        setEditorState(value);
+    const onClickSaveDraft: MouseEventHandler<HTMLButtonElement> = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        setIsSavingDraft(true);
+        await props.saveDraft({
+            titleEditorState: titleEditorState,
+            contentEditorState: contentEditorState
+        })
+        setIsSavingDraft(false);
     }
-    const onClickSaveDraft = (event: React.ChangeEvent<HTMLButtonElement>) => {
-        saveDraft(editorState);
-    }
+
     const focus = () => {
-        editorRef.current?.focus();
+        contentEditorRef.current?.focus();
     }
     return (
-        <div>
-            <div onClick={focus}>
-                <Editor
-                    editorKey="StoryContentSection"
-                    editorState={editorState}
-                    onChange={onChange}
-                    plugins={plugins}
-                    ref={(element: Editor) => {
-                        editorRef.current = element;
+        error ? <SendError>Story Content Section Error: {error.toString()}</SendError>
+            : <div>
+                <StoryTitle
+                    title={titleEditorState}
+                    onTitleChange={value => {
+                        setTitleEditorState(value);
                     }}
                 />
+                <div onClick={focus}>
+                    <Editor
+                        placeholder={"Tell your story..."}
+                        editorKey="StoryContentSection"
+                        editorState={contentEditorState}
+                        onChange={(value: EditorState) => setContentEditorState(value)}
+                        plugins={plugins}
+                        ref={(element: Editor) => {
+                            contentEditorRef.current = element;
+                        }}
+                    />
+                </div>
+                <InlineToolbar/>
+                <SideToolbar>
+                    {// may be use React.Fragment instead of div to improve perfomance after React 16
+                        externalProps => (
+                            <>
+                                <BoldButton {...externalProps} />
+                                <ItalicButton {...externalProps} />
+                                <UnderlineButton {...externalProps} />
+                                <CodeButton {...externalProps} />
+                                <HeadlineOneButton {...externalProps} />
+                                <HeadlineTwoButton {...externalProps} />
+                                <HeadlineThreeButton {...externalProps} />
+                                <UnorderedListButton {...externalProps} />
+                                <OrderedListButton {...externalProps} />
+                                <BlockquoteButton {...externalProps} />
+                                <CodeBlockButton {...externalProps} />
+                            </>
+                        )}
+                </SideToolbar>
+                <AlignmentTool/>
+                <LoadingButton
+                    onClick={onClickSaveDraft}
+                    loading={isSavingDraft}>
+                    Save draft
+                </LoadingButton>
             </div>
-            <InlineToolbar/>
-            <SideToolbar>
-                {// may be use React.Fragment instead of div to improve perfomance after React 16
-                    externalProps => (
-                        <>
-                            <BoldButton {...externalProps} />
-                            <ItalicButton {...externalProps} />
-                            <UnderlineButton {...externalProps} />
-                            <CodeButton {...externalProps} />
-                            <HeadlineOneButton {...externalProps} />
-                            <HeadlineTwoButton {...externalProps} />
-                            <HeadlineThreeButton {...externalProps} />
-                            <UnorderedListButton {...externalProps} />
-                            <OrderedListButton {...externalProps} />
-                            <BlockquoteButton {...externalProps} />
-                            <CodeBlockButton {...externalProps} />
-                        </>
-                    )}
-            </SideToolbar>
-            <AlignmentTool/>
-            <Button
-                variant="contained"
-                color="success"
-                disabled={savingDraft}
-                onClick={onClickSaveDraft}
-            >
-                <CircularProgress size={20}/>
-                Save draft
-            </Button>
-        </div>
     )
 }
 export default StoryContentSection;

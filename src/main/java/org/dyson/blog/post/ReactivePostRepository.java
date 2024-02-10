@@ -1,8 +1,5 @@
 package org.dyson.blog.post;
 
-import org.dyson.blog.dto.PostSummaryDto;
-import org.dyson.blog.entity.Post;
-import org.dyson.blog.entity.PostKeys;
 import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 import org.springframework.data.domain.Pageable;

@@ -2,14 +2,6 @@ package org.dyson.blog.post;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dyson.blog.dto.CreateDraftRequest;
-import org.dyson.blog.dto.CreatePostRequest;
-import org.dyson.blog.dto.PostDto;
-import org.dyson.blog.dto.PostSummaryDto;
-import org.dyson.blog.entity.Draft;
-import org.dyson.blog.entity.Post;
-import org.dyson.blog.entity.PostType;
-import org.dyson.blog.draft.DraftRepository;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +9,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import org.dyson.blog.dto.DraftDto;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -48,7 +39,7 @@ public class PostController {
 //                .map(PagingState::getRawPagingState)
 //                .orElse(null)
         );
-            return reactiveRepository.findAll(pageable);
+        return reactiveRepository.findAll(pageable);
     }
 
     @PostMapping

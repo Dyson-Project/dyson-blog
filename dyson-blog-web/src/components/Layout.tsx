@@ -1,22 +1,18 @@
 import styles from "./layout.module.css";
 import Head from "next/head";
-import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
-import Image from "next/image";
-import {ReactElement} from "react";
 import Footer from "@/components/blog/Footer";
 import Header from "@/components/blog/Header";
+import React from "react";
 
 const name = "TikTuzki";
 export const siteTitle = "Next.js Sample Website";
 
 interface LayoutProps {
-    children: ReactElement | ReactElement[],
     home: boolean
 }
 
-export default function Layout({children, home}: LayoutProps) {
-
+export default function Layout({home, children}: React.PropsWithChildren<LayoutProps>) {
     return (
         <div className={styles.container}>
             <Head>
@@ -41,39 +37,39 @@ export default function Layout({children, home}: LayoutProps) {
             ]}
                     title={""}
             />
-            <header className={styles.header}>
-                {home ? (
-                    <>
-                        <Image
-                            priority
-                            src="/images/profile.jpeg"
-                            className={utilStyles.borderCircle}
-                            height={144}
-                            width={144}
-                            alt=""
-                        />
-                        <h1 className={utilStyles.heading2Xl}>{name}</h1>
-                    </>
-                ) : (
-                    <>
-                        <Link href="/">
-                            <Image
-                                priority
-                                src="/images/profile.jpeg"
-                                className={utilStyles.borderCircle}
-                                height={108}
-                                width={108}
-                                alt=""
-                            />
-                        </Link>
-                        <h2 className={utilStyles.headingLg}>
-                            <Link href="/" className={utilStyles.colorInherit}>
-                                {name}
-                            </Link>
-                        </h2>
-                    </>
-                )}
-            </header>
+            {/*<header className={styles.header}>*/}
+            {/*    {home ? (*/}
+            {/*        <>*/}
+            {/*            <Image*/}
+            {/*                priority*/}
+            {/*                src="/images/profile.jpeg"*/}
+            {/*                className={utilStyles.borderCircle}*/}
+            {/*                height={144}*/}
+            {/*                width={144}*/}
+            {/*                alt=""*/}
+            {/*            />*/}
+            {/*            <h1 className={utilStyles.heading2Xl}>{name}</h1>*/}
+            {/*        </>*/}
+            {/*    ) : (*/}
+            {/*        <>*/}
+            {/*            <Link href="/">*/}
+            {/*                <Image*/}
+            {/*                    priority*/}
+            {/*                    src="/images/profile.jpeg"*/}
+            {/*                    className={utilStyles.borderCircle}*/}
+            {/*                    height={108}*/}
+            {/*                    width={108}*/}
+            {/*                    alt=""*/}
+            {/*                />*/}
+            {/*            </Link>*/}
+            {/*            <h2 className={utilStyles.headingLg}>*/}
+            {/*                <Link href="/" className={utilStyles.colorInherit}>*/}
+            {/*                    {name}*/}
+            {/*                </Link>*/}
+            {/*            </h2>*/}
+            {/*        </>*/}
+            {/*    )}*/}
+            {/*</header>*/}
             <main>{children}</main>
             {!home && (
                 <div className={styles.backToHome}>

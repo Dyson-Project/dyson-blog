@@ -2,7 +2,17 @@
 '@draft-js-plugins/side-toolbar/lib/plugin.css',
 '@draft-js-plugins/sticker/lib/plugin.css',
 '@draft-js-plugins/image/lib/plugin.css',
-'@draft-js-plugins/alignment/lib/plugin.css';
+'@draft-js-plugins/alignment/lib/plugin.css',
+'draft-js/dist/Draft.css';
+
+:root {
+    --battleship-gray: #919090ff;
+    --dim-gray: #636262ff;
+    --seasalt: #F9F9F9ff;
+    --white-2: #FCFBFBff;
+    --polynesian-blue: #0C4789ff;
+    --columbia-blue: #C7D4E3ff;
+}
 
 html,
 body {
@@ -12,6 +22,7 @@ body {
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     line-height: 1.6;
     font-size: 18px;
+    background-color: var(--white-2);
 }
 
 * {
@@ -19,7 +30,7 @@ body {
 }
 
 a {
-    color: #0070f3;
+    color: var(--polynesian-blue);
     text-decoration: none;
 }
 
