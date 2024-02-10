@@ -4,3 +4,8 @@ export interface User {
     email: string;
     authToken?: string;
 }
+
+export interface LoginRequest {
+    username: string;
+    password: string;
+}

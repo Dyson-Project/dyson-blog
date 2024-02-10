@@ -13,7 +13,7 @@ export default function NewStory() {
     useEffect(() => {
     }, [])
 
-    const saveDraft = async (draft: EditingDraft): Promise<AxiosResponse<Draft>> => {
+    const saveDraft = async (draft: EditingDraft): Promise<void> => {
         let response = await axios.post<Draft, AxiosResponse<Draft>>(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/drafts`, {
             title: JSON.stringify(convertToRaw(draft.titleEditorState.getCurrentContent())),
             content: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))

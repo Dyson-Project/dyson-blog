@@ -8,17 +8,17 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useAuth} from "@/hooks/useAuth";
+import Image from "next/image";
 
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" href="https://github.com/tiktzuki">
+                TikTuzki
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -28,7 +28,8 @@ function Copyright(props: any) {
 
 export default function SignIn() {
     const {login} = useAuth();
-    const handleSubmit = (event: React.FormEvent<HTMLDivElement>) => {
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
@@ -36,9 +37,8 @@ export default function SignIn() {
             password: data.get('password'),
         });
         login({
-            id: '1',
-            name: 'TikTuzki',
-            email: 'tiktuzki@gmail.com'
+            username: `${data.get("email")}`,
+            password: `${data.get("password")}`
         })
     };
 
@@ -53,9 +53,11 @@ export default function SignIn() {
                     alignItems: 'center',
                 }}
             >
-                <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-                    <LockOutlinedIcon/>
-                </Avatar>
+                <Link href="/">
+                    <Avatar sx={{m: 1, bgcolor: 'primary.main', width: 100, height: 100}}>
+                        <Image src="/images/logo.png" alt="logo" width={100} height={100}/>
+                    </Avatar>
+                </Link>
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>

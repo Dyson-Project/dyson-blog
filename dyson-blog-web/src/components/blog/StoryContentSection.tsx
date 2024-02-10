@@ -10,7 +10,7 @@ import createResizeablePlugin from '@draft-js-plugins/resizeable';
 import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
 import createImagePlugin from '@draft-js-plugins/image';
 import createDragNDropUploadPlugin, {DndUploadPluginConfig} from '@draft-js-plugins/drag-n-drop-upload';
-import {convertFromRaw, convertToRaw, EditorState} from "draft-js";
+import {convertFromRaw, EditorState} from "draft-js";
 import stickers from "./stickers";
 import mockUpload from "@/mocks/mockUpload";
 import {
@@ -43,19 +43,13 @@ export interface EditingDraft {
 
 interface StoryContentSectionProps {
     draftId?: string,
-    saveDraft: (editingDraft: EditingDraft) => Promise<AxiosResponse<Draft>> | undefined,
+    saveDraft: (editingDraft: EditingDraft) => Promise<void> | undefined,
 }
 
 const getDraft = async (draftId: string): Promise<AxiosResponse<Draft>> => {
     return axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/drafts/${draftId}`)
 }
 
-const saveDraft = async (draftId: string, title: string, editorState: EditorState): Promise<AxiosResponse<Draft>> => {
-    return axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/drafts/${draftId}`, {
-        title: title,
-        content: JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-    })
-}
 
 const StoryContentSection = (props: StoryContentSectionProps) => {
     const [error, setError] = useState<any>(null);

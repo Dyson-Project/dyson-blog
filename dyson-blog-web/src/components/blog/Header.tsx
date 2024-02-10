@@ -1,14 +1,20 @@
 import * as React from 'react';
+import {useContext} from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import {Tooltip} from "@mui/material";
 import Image from "next/image";
 import {useAuth} from "@/hooks/useAuth";
+import Link from "@mui/material/Link";
+import {useTheme} from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import {ColorModeContext} from "@/context/ColorModeContext";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 interface HeaderProps {
     sections: ReadonlyArray<{
@@ -20,15 +26,27 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
     const {sections, title} = props;
-    const {logout} = useAuth();
-
+    const {isAuthenticated, logout} = useAuth();
+    const theme = useTheme();
+    const {toggleColorMode} = useContext(ColorModeContext);
+    const rightSideComponents = isAuthenticated ?
+        <>
+            <Tooltip title={"Write"}>
+                <Link href="/new-story">
+                    <IconButton>
+                        <DriveFileRenameOutlineOutlinedIcon/>
+                    </IconButton>
+                </Link>
+            </Tooltip>
+            <Button onClick={logout}>Logout</Button>
+        </>
+        : <Button href="/login" LinkComponent={Link}>Login</Button>
     return (
         <>
             <Toolbar sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Link href="/">
                     <Image src="/images/logo.png" alt={"logo"} width={70} height={70}/>
                 </Link>
-                <Button size="small">Subscribe</Button>
                 <Tooltip title={"Search"}>
                     <IconButton>
                         <SearchIcon/>
@@ -44,16 +62,23 @@ export default function Header(props: HeaderProps) {
                 >
                     {title}
                 </Typography>
-                <Tooltip title={"Write"}>
-                    <Link href="/new-story">
-                        <IconButton>
-                            <DriveFileRenameOutlineOutlinedIcon/>
-                        </IconButton>
-                    </Link>
-                </Tooltip>
-                <Button onClick={logout}>
-                    Logout
-                </Button>
+                {rightSideComponents}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        width: '10%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bgcolor: 'background.default',
+                        color: 'text.primary',
+                        borderRadius: 1,
+                        p: 3,
+                    }}
+                >
+                    <IconButton sx={{ml: 1}} onClick={toggleColorMode} color="inherit">
+                        {theme.palette.mode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
+                    </IconButton>
+                </Box>
             </Toolbar>
             <Toolbar
                 component="nav"
@@ -74,5 +99,6 @@ export default function Header(props: HeaderProps) {
                 ))}
             </Toolbar>
         </>
-    );
+    )
+        ;
 }

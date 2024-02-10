@@ -1,7 +1,7 @@
 import Layout from "../../components/Layout";
 import {getAllPostIds, getPostData} from "../../libs/posts";
 import Head from "next/head";
-import Date from "../../components/Date";
+import DateText from "../../components/DateText";
 
 import utilStyles from "../../styles/utils.module.css";
 
@@ -13,7 +13,7 @@ export default function Post({post}) {
         <article>
             <h1 className={utilStyles.headingXl}>{post.title}</h1>
             <div className={utilStyles.lightText}>
-                <Date dateString={post.date}/>
+                <DateText dateString={post.date}/>
             </div>
             <div dangerouslySetInnerHTML={{__html: post.contentHtml}}/>
         </article>

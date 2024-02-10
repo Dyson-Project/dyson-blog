@@ -1,6 +1,5 @@
 import Head from "next/head";
-import axios, {AxiosResponse} from "axios";
-import {Draft} from "@/types/draft";
+import axios from "axios";
 import SendError from "@/components/error/SendError";
 import {useRouter} from "next/router";
 import Layout from "@/components/Layout";
@@ -11,7 +10,7 @@ export default function Edit() {
     const router = useRouter();
     const draftId = router.query.id as string;
 
-    const saveDraft = async (draft: EditingDraft): Promise<AxiosResponse<Draft>> => {
+    const saveDraft = async (draft: EditingDraft): Promise<void> => {
         return axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/drafts/${draftId}`, {
             title: JSON.stringify(convertToRaw(draft.titleEditorState.getCurrentContent())),
             content: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))

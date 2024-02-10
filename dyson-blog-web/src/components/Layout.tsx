@@ -4,17 +4,18 @@ import Link from "next/link";
 import Footer from "@/components/blog/Footer";
 import Header from "@/components/blog/Header";
 import React from "react";
+import Container from "@mui/material/Container";
 
-const name = "TikTuzki";
-export const siteTitle = "Next.js Sample Website";
+export const siteTitle = "Dyson Blog";
 
 interface LayoutProps {
     home: boolean
 }
 
+
 export default function Layout({home, children}: React.PropsWithChildren<LayoutProps>) {
     return (
-        <div className={styles.container}>
+        <Container>
             <Head>
                 <link rel="icon" href="/favicon.ico"/>
                 <meta
@@ -77,6 +78,6 @@ export default function Layout({home, children}: React.PropsWithChildren<LayoutP
                 </div>
             )}
             <Footer description={"Footer description"} title={"Footer title"}/>
-        </div>
+        </Container>
     );
 }
