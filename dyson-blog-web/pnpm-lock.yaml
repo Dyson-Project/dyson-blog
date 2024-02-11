@@ -56,6 +56,9 @@ dependencies:
   '@mui/material-nextjs':
     specifier: ^5.15.7
     version: 5.15.7(@mui/material@5.15.7)(@types/react@18.2.54)(next@14.1.0)(react@18.2.0)
+  '@react-oauth/google':
+    specifier: ^0.12.1
+    version: 0.12.1(react-dom@18.2.0)(react@18.2.0)
   '@types/draft-js':
     specifier: ^0.11.17
     version: 0.11.17
@@ -2918,6 +2921,16 @@ packages:
 
   /@popperjs/core@2.11.8:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+    dev: false
+
+  /@react-oauth/google@0.12.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: { integrity: sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg== }
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@rollup/plugin-babel@5.3.1(@babel/core@7.23.9)(rollup@2.79.1):

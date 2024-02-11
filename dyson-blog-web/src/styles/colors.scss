@@ -1,0 +1,29 @@
+$colors: (
+    white: #fff,
+    black: #121212,
+    grey: #FFFFFFB2,
+    textDisable: #FFFFFF7F,
+);
+
+@each $color, $value in $colors {
+    :export {
+        $color: $value;
+    }
+}
+
+$my-color: #000;
+
+:export {
+    battleshipGray: #919090ff;
+    dimGray: #636262ff;
+    seaSalt: #F9F9F9ff;
+    lotion: #FCFBFBff;
+    polynesianBlue: #0C4789ff;
+    columbiaBlue: #C7D4E3ff;
+    eerieBlack: #171916;
+    darkCharcoal: #34302F;
+    pineTree: #302627;
+    graniteGray: #68635F;
+    isabelLine: #F0F0EE;
+    cinnamonSatin: #CF6679;
+}

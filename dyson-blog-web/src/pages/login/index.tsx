@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,23 +13,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useAuth} from "@/hooks/useAuth";
 import Image from "next/image";
+import {Copyright} from "@/components/blog/Footer";
+import {useRouter} from "next/router";
 
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://github.com/tiktzuki">
-                TikTuzki
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 export default function SignIn() {
-    const {login} = useAuth();
+    const {isAuthenticated, login} = useAuth();
+    const router = useRouter();
 
+    useEffect(() => {
+        (async function () {
+            if (isAuthenticated)
+                await router.replace("/");
+        })();
+    }, []);
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);

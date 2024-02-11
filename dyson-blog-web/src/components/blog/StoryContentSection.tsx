@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, useEffect, useMemo, useRef, useState} from "react";
+import React, {MouseEventHandler, PropsWithRef, useEffect, useMemo, useRef, useState} from "react";
 import Editor, {composeDecorators} from '@draft-js-plugins/editor';
 import createInlineToolbarPlugin from '@draft-js-plugins/inline-toolbar';
 import createSideToolbarPlugin from '@draft-js-plugins/side-toolbar';
@@ -51,13 +51,15 @@ const getDraft = async (draftId: string): Promise<AxiosResponse<Draft>> => {
 }
 
 
-const StoryContentSection = (props: StoryContentSectionProps) => {
+const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
     const [error, setError] = useState<any>(null);
     const [draftId, setDraftId] = useState<string | undefined>(props.draftId);
+    const [isSavingDraft, setIsSavingDraft] = useState<boolean>(false);
+
     const [titleEditorState, setTitleEditorState] = useState<EditorState>(EditorState.createEmpty());
     const contentEditorRef = useRef<Editor | undefined>();
-    const [isSavingDraft, setIsSavingDraft] = useState<boolean>(false);
     const [contentEditorState, setContentEditorState] = useState<EditorState>(EditorState.createEmpty());
+
     const [plugins,
         InlineToolbar,
         SideToolbar,

@@ -1,4 +1,4 @@
-import styles from "./layout.module.css";
+import styles from "./Layout.module.scss";
 import Head from "next/head";
 import Link from "next/link";
 import Footer from "@/components/blog/Footer";
@@ -15,7 +15,12 @@ interface LayoutProps {
 
 export default function Layout({home, children}: React.PropsWithChildren<LayoutProps>) {
     return (
-        <Container>
+        <Container
+            sx={{
+                bgcolor: 'background.default',
+                color: 'text.primary',
+            }}
+        >
             <Head>
                 <link rel="icon" href="/favicon.ico"/>
                 <meta

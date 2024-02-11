@@ -1,60 +1,46 @@
 import {useRouter} from "next/router";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import styles from "@/components/layout.module.css";
+import styles from "@/components/Layout.module.scss";
 import Image from "next/image";
-import utilStyles from "@/styles/utils.module.css";
-import Link from "next/link";
-import React, {useState} from "react";
+import utilStyles from "@/styles/utils.module.scss";
+import React, {useEffect, useState} from "react";
 import {DraftSummary} from "@/types/draft";
 import {Profile} from "@/types/profile";
+import {useAuth} from "@/hooks/useAuth";
+import Typography from "@mui/material/Typography";
 
 export interface ProfileProps {
-    home: boolean
 }
 
-const Profile = ({home}: ProfileProps) => {
+const Profile = ({}: ProfileProps) => {
+    const {user} = useAuth();
     const router = useRouter();
     const profileId = router.query.id as string;
     const [profile, setProfile] = useState<Profile>();
     const [drafts, setDrafts] = useState<DraftSummary[]>();
+    useEffect(() => {
+    }, []);
 
-    return <Layout home={true}>
+    return user && <Layout home={true}>
         <Head>
             <title>{profileId}</title>
         </Head>
         <div className={styles.header}>
-            {home ? (
-                <>
-                    <Image
-                        priority
-                        src="/images/profile.jpeg"
-                        className={utilStyles.borderCircle}
-                        height={144}
-                        width={144}
-                        alt=""
-                    />
-                    <h1 className={utilStyles.heading2Xl}>{name}</h1>
-                </>
-            ) : (
-                <>
-                    <Link href="/">
-                        <Image
-                            priority
-                            src="/images/profile.jpeg"
-                            className={utilStyles.borderCircle}
-                            height={108}
-                            width={108}
-                            alt=""
-                        />
-                    </Link>
-                    <h2 className={utilStyles.headingLg}>
-                        <Link href="/" className={utilStyles.colorInherit}>
-                            {profile?.name}
-                        </Link>
-                    </h2>
-                </>
-            )}
+            <Image
+                priority
+                src={user.avatar}
+                className={utilStyles.borderCircle}
+                height={144}
+                width={144}
+                alt=""
+            />
+            <Typography variant="h4">
+                {user.name}
+            </Typography>
+            <Typography variant="subtitle2">
+                {user.username}
+            </Typography>
         </div>
     </Layout>
 

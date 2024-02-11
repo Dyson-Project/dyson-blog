@@ -4,6 +4,20 @@ server:
     include-exception: on
     include-message: always
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 759254302934-h0u67i38q8idqkvvjr5v0dmfmni59a0m.apps.googleusercontent.com
+            client-secret: secret
+            redirect-uri: http://localhost:3000
+            scope:
+              - email
+              - profile
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
   main:
     web-application-type: reactive
   cassandra:

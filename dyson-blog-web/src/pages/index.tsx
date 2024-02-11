@@ -1,14 +1,17 @@
 import Head from 'next/head';
-import utilStyles from "../styles/utils.module.css";
+import utilStyles from "../styles/utils.module.scss";
 import Layout, {siteTitle} from "../components/Layout";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {PostSummary} from "@/types/posts";
+import {GoogleLogin} from "@react-oauth/google";
+import {useAuth} from "@/hooks/useAuth";
 
 export default function Home() {
     const [posts, setPosts] = useState<PostSummary[]>([]);
+    const {onOAuth2Success} = useAuth();
 
     const fetchMoreData = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/posts/reactive`, {
@@ -27,10 +30,16 @@ export default function Home() {
                 <title>{siteTitle}</title>
             </Head>
             <section className={utilStyles.headingMd}>
+                <GoogleLogin
+                    onSuccess={onOAuth2Success}
+                    onError={() => {
+                        console.log('Login Failed');
+                    }}
+                />;
                 <p>[Your Self Introduction]</p>
                 <p>
                     (This is a sample website - you’ll be building a site like this on{' '}
-                    <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
+                    <Link href="https://nextjs.org/learn">our Next.js tutorial</Link>.)
                 </p>
                 <h2 className={utilStyles.headingLg}>Blog</h2>
                 <InfiniteScroll style={{}} next={fetchMoreData}

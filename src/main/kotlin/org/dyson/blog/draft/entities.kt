@@ -44,7 +44,7 @@ data class Draft(
 @PrimaryKeyClass
 data class DraftKeys(
     @PrimaryKeyColumn(ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-    val postId: String = RandomStringUtils.randomAlphanumeric(12),
+    val draftId: String = RandomStringUtils.randomAlphanumeric(12),
     @CreatedDate
     @PrimaryKeyColumn(ordinal = 2, ordering = Ordering.DESCENDING)
     var createdDate: Instant? = null,
