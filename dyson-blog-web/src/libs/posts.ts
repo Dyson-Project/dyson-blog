@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import {remark} from "remark";
 import html from "remark-html";
-import {Post} from "@/types/posts";
+import {Post} from "@/types/post";
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 

@@ -43,7 +43,7 @@ export interface EditingDraft {
 
 interface StoryContentSectionProps {
     draftId?: string,
-    saveDraft: (editingDraft: EditingDraft) => Promise<void> | undefined,
+    saveDraft: (editingDraft: EditingDraft) => Promise<any> | undefined,
 }
 
 const getDraft = async (draftId: string): Promise<AxiosResponse<Draft>> => {

@@ -35,6 +35,9 @@ spring:
 logging:
   level:
     org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate: debug
+    org.dyson.blog: debug
+    org.springframework.security: debug
+    org.springframework.web: debug
 #springdoc:
 #  swagger-ui:
 #    path: /swagger-ui/index.html

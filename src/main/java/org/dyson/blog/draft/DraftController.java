@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,10 +20,7 @@ public class DraftController {
 
     @GetMapping
     Flux<DraftSummaryDto> list(@ParameterObject Pageable pageable) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.debug(authentication.getName(), authentication);
-//        return draftService.getDrafts(pageable);
-        return Flux.empty();
+        return draftService.getDrafts(pageable);
     }
 
     @PostMapping

@@ -5,7 +5,7 @@ import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {PostSummary} from "@/types/posts";
+import {PostSummary} from "@/types/post";
 import {GoogleLogin} from "@react-oauth/google";
 import {useAuth} from "@/hooks/useAuth";
 
