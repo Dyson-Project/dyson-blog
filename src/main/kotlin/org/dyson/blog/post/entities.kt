@@ -1,6 +1,7 @@
 package org.dyson.blog.post
 
 import org.apache.commons.lang3.RandomStringUtils
+import org.dyson.blog.draft.Title
 import org.springframework.data.annotation.*
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -38,7 +39,7 @@ data class Post(
     val keys: PostKeys = PostKeys(),
     var categoryId: String?,
     var type: PostType?,
-    var title: String,
+    var title: Title,
     var point: Int = 0,
     var url: String?,
     var content: String?,

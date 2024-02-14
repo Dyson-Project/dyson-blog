@@ -26,24 +26,13 @@ public class DraftController {
     @PostMapping
     @ResponseStatus(CREATED)
     Mono<DraftDto> create(@RequestBody CreateDraftRequest request) {
-        return draftRepository
-            .insert(new Draft(
-                request.getTitle(),
-                request.getContent()
-            ))
-            .map(DraftDto::new);
+        return draftService.createDraft(request);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     Mono<DraftDto> update(@PathVariable String id, @RequestBody UpdateDraftRequest request) {
-        return draftRepository.findByKeys_DraftId(id)
-            .doOnNext(draft -> {
-                draft.setTitle(request.getTitle());
-                draft.setContent(request.getContent());
-            })
-            .flatMap(draftRepository::save)
-            .map(DraftDto::new);
+        return draftService.updateDraft(id, request);
     }
 
     @GetMapping("/{id}")

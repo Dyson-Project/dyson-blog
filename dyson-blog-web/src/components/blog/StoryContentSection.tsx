@@ -26,10 +26,9 @@ import {
     UnderlineButton,
     UnorderedListButton
 } from "@draft-js-plugins/buttons";
-import axios, {AxiosResponse} from "axios";
-import {Draft} from "@/types/draft";
 import SendError from "@/components/error/SendError";
 import StoryTitle from "@/components/blog/StoryTitle";
+import {useDraftApi} from "@/hooks/useDraftApi";
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
@@ -46,16 +45,12 @@ interface StoryContentSectionProps {
     saveDraft: (editingDraft: EditingDraft) => Promise<any> | undefined,
 }
 
-const getDraft = async (draftId: string): Promise<AxiosResponse<Draft>> => {
-    return axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/drafts/${draftId}`)
-}
-
-
 const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
-    const [error, setError] = useState<any>(null);
+    const {getDraft} = useDraftApi();
+    const [error, setError] = useState<Object>(null);
     const [draftId, setDraftId] = useState<string | undefined>(props.draftId);
     const [isSavingDraft, setIsSavingDraft] = useState<boolean>(false);
-
+    const [initTitle, setInitTitle] = useState<string | undefined>();
     const [titleEditorState, setTitleEditorState] = useState<EditorState>(EditorState.createEmpty());
     const contentEditorRef = useRef<Editor | undefined>();
     const [contentEditorState, setContentEditorState] = useState<EditorState>(EditorState.createEmpty());
@@ -104,9 +99,10 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
                 .then((value) => {
                     let data = value.data;
                     if (data) {
-                        if (data.title) {
-                            console.log("set title");
-                            setTitleEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.title))));
+                        if (data.titleEditorState) {
+                            console.log("set title", JSON.parse(data.titleEditorState));
+                            setTitleEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.titleEditorState))));
+                            setInitTitle(data.titleEditorState);
                         }
                         if (data.content)
                             setContentEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.content))));
@@ -114,10 +110,9 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
                         setError("Not found")
                 })
                 .catch(reason => {
+                    console.error(reason)
                     setError(reason)
                 });
-        } else {
-            setContentEditorState(EditorState.createEmpty());
         }
     }, []);
 
@@ -137,7 +132,7 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
         error ? <SendError>Story Content Section Error: {error.toString()}</SendError>
             : <div>
                 <StoryTitle
-                    title={titleEditorState}
+                    initTitleValue={initTitle}
                     onTitleChange={value => {
                         setTitleEditorState(value);
                     }}

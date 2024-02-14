@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Value
 import java.time.Instant
 import java.util.*
 
-data class CreatePostRequest(
+data class PublishPostRequest(
+    val draftId: String?,
     val categoryId: String?,
-    val title: String,
-    val content: String?,
-    val createdDate: Instant?,
-    val lastModifiedDate: Instant?,
-    val createdBy: String?,
+    val titleEditorState: String,
+    val contentEditorState: String,
 )
 
 data class PostDto(

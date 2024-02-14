@@ -21,7 +21,7 @@ export default function NewStory() {
         })
             .then(value => {
                 let data = value.data;
-                router.replace(`/draft/${data.draftId}/edit`);
+                router.replace(`/draft/${data.id}/edit`);
             })
             .catch(reason => {
                 console.error(reason);

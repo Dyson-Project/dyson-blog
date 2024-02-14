@@ -1,24 +1,18 @@
 package org.dyson.blog.configurations;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.cassandra.config.EnableCassandraAuditing;
-import org.springframework.data.cassandra.config.EnableReactiveCassandraAuditing;
-import org.springframework.data.domain.AuditorAware;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.ReactiveAuditorAware;
-import reactor.core.publisher.Mono;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 
-import java.util.Optional;
-
-@EnableCassandraAuditing
-@EnableReactiveCassandraAuditing
+@Slf4j
+@Configuration
 public class AuditorAwareConfig {
     @Bean
     ReactiveAuditorAware<String> reactiveAuditorAware() {
-        return () -> Mono.just("the-current-user");
+        return () -> ReactiveSecurityContextHolder.getContext()
+            .map(context -> context.getAuthentication().getName());
     }
 
-    @Bean
-    AuditorAware<String> auditorAware() {
-        return () -> Optional.of("current-user");
-    }
 }

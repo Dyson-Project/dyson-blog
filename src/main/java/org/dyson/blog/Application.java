@@ -22,7 +22,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        draftRepository.findAll("test", CassandraPageRequest.first(10))
-            .log().blockLast();
+//        draftRepository.findAll("test", CassandraPageRequest.first(10))
+//            .log().blockLast();
     }
 }

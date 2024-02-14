@@ -3,7 +3,7 @@ import {PostSummary} from "@/types/post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import utilStyles from "@/styles/utils.module.scss";
 import Link from "next/link";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {DraftSummary} from "@/types/draft";
 import {useDraftApi} from "@/hooks/useDraftApi";
 
@@ -13,6 +13,10 @@ export interface DraftsInfiniteScrollProps {
 const DraftsInfiniteScroll = ({}: DraftsInfiniteScrollProps) => {
     const [drafts, setDrafts] = useState<DraftSummary[]>([]);
     const {getDrafts} = useDraftApi();
+
+    useEffect(() => {
+        fetchMoreData();
+    }, []);
 
     const fetchMoreData = () => {
         getDrafts({})
@@ -31,7 +35,7 @@ const DraftsInfiniteScroll = ({}: DraftsInfiniteScrollProps) => {
         {
             drafts.map(({id, title, lastModifiedDate}) => (
                 <li className={utilStyles.listItem} key={id}>
-                    <Link href={`/posts/${id}`}> {title} </Link>
+                    <Link href={`/draft/${id}/edit`}> {title || "untitled story"} </Link>
                     <br/>
                     <small className={utilStyles.lightText}>
                         {lastModifiedDate}

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,20 +17,11 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
 public class PostController {
-    final PostRepository repository;
     final ReactivePostRepository reactiveRepository;
     final PostService postService;
 
-    @GetMapping
-    Slice<PostSummaryDto> list(@ParameterObject Pageable pageable) {
-        log.debug("-----> {}", pageable.getPageSize());
-        return repository.findAll(CassandraPageRequest.first(1))
-            .map(p -> null);
-    }
-
     @GetMapping("/reactive")
-    Flux<PostSummaryDto> listReactive(@RequestParam Boolean isDraft,
-                                      @ParameterObject Pageable pageable) {
+    Flux<PostSummaryDto> listReactive(@ParameterObject Pageable pageable) {
         var page = CassandraPageRequest.of(
             pageable,
             null
@@ -44,9 +34,10 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Mono<PostDto> create(@RequestBody CreatePostRequest request) {
+    Mono<PostDto> publishPost(@RequestBody PublishPostRequest request) {
         return postService.publishPost(request);
     }
+
 
     @GetMapping("/{postId}")
     Mono<PostDto> get(@PathVariable String postId) {
@@ -56,7 +47,7 @@ public class PostController {
 
     @DeleteMapping("/{postId}")
     @ResponseStatus(NO_CONTENT)
-    public Mono<Void> delete(@PathVariable String postId) {
+    Mono<Void> delete(@PathVariable String postId) {
         return reactiveRepository.deleteByKeys_PostId(postId);
     }
 }

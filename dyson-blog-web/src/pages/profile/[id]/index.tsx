@@ -55,16 +55,14 @@ const Profile = ({}: ProfileProps) => {
             <TabContext value={value}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="Item One" value="1"/>
-                        <Tab label="Item Two" value="2"/>
-                        <Tab label="Item Three" value="3"/>
+                        <Tab label="Drafts" value="1"/>
+                        <Tab label="Posts" value="2"/>
                     </TabList>
                 </Box>
                 <TabPanel value="1">
                     <DraftsInfiniteScroll/>
                 </TabPanel>
-                <TabPanel value="2">Item Two</TabPanel>
-                <TabPanel value="3">Item Three</TabPanel>
+                <TabPanel value="2">Posts</TabPanel>
             </TabContext>
 
         </div>

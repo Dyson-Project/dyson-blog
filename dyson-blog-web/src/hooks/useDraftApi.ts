@@ -39,5 +39,5 @@ export const useDraftApi = () => {
         return bearerTokenAxios(user?.authToken!)
             .delete(`/api/v1/drafts/${id}`);
     }
-    return {getDrafts, createDraft, updateDraft, deleteDraft}
+    return {getDrafts, getDraft, createDraft, updateDraft, deleteDraft}
 }

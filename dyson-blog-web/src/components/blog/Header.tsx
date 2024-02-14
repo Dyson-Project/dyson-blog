@@ -16,6 +16,7 @@ import {ColorModeContext} from "@/context/ColorModeContext";
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Avatar from "@mui/material/Avatar";
+import {useRouter} from "next/router";
 
 interface HeaderProps {
     sections: ReadonlyArray<{
@@ -27,6 +28,7 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
     const {sections, title} = props;
+    const router = useRouter();
     const {isAuthenticated, user, logout} = useAuth();
     const theme = useTheme();
     const {toggleColorMode} = useContext(ColorModeContext);
@@ -46,7 +48,7 @@ export default function Header(props: HeaderProps) {
             </Link>
             <Button onClick={logout}>Logout</Button>
         </>
-        : <Button href="/login" LinkComponent={Link}>Login</Button>
+        : <Button href={`/login?prevPath=${router.pathname}`} LinkComponent={Link}>Login</Button>
     return (
         <>
             <Toolbar sx={{borderBottom: 1, borderColor: 'divider'}}>

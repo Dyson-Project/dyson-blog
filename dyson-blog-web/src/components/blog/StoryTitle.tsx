@@ -1,36 +1,36 @@
 import Editor from "@draft-js-plugins/editor";
-import {EditorState} from "draft-js";
+import {convertFromRaw, EditorState} from "draft-js";
 import React, {useEffect, useMemo, useRef, useState} from "react";
-import createInlineToolbarPlugin from "@draft-js-plugins/inline-toolbar";
 import createSideToolbarPlugin from "@draft-js-plugins/side-toolbar";
 
 export interface StoryTitleProps {
-    title: EditorState,
+    initTitleValue: string | undefined,
     onTitleChange: (value: EditorState) => void
 }
 
 const StoryTitle = (props: StoryTitleProps) => {
+    const {initTitleValue} = props;
     const editorRef = useRef<Editor | undefined>();
-    const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+    const [editorState, setEditorState] = useState<EditorState>(initTitleValue
+        ? EditorState.createWithContent(convertFromRaw(JSON.parse(initTitleValue)))
+        : EditorState.createEmpty());
     const [plugins,
-        InlineToolbar,
         SideToolbar,
     ] = useMemo(() => {
-        const inlineToolbarPlugin = createInlineToolbarPlugin();
         const sideToolbarPlugin = createSideToolbarPlugin();
-        return [[inlineToolbarPlugin,
+        return [[
             sideToolbarPlugin,
         ],
-            inlineToolbarPlugin.InlineToolbar,
             sideToolbarPlugin.SideToolbar,
         ]
     }, []);
 
     useEffect(() => {
-        // fixing issue with SSR https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
-        setEditorState(props.title);
-    }, []);
-
+        if (initTitleValue)
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(initTitleValue))))
+        else
+            setEditorState(EditorState.createEmpty());
+    }, [initTitleValue]);
     const focus = () => {
         editorRef.current?.focus();
     }
@@ -54,7 +54,6 @@ const StoryTitle = (props: StoryTitleProps) => {
             />
         </div>
         <SideToolbar/>
-        <InlineToolbar/>
     </>
 }
 

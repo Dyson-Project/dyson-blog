@@ -10,7 +10,7 @@ spring:
         registration:
           google:
             client-id: 759254302934-h0u67i38q8idqkvvjr5v0dmfmni59a0m.apps.googleusercontent.com
-            client-secret: secret
+            client-secret: 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
             redirect-uri: http://localhost:3000
             scope:
               - email
@@ -36,8 +36,8 @@ logging:
   level:
     org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate: debug
     org.dyson.blog: debug
-    org.springframework.security: debug
-    org.springframework.web: debug
+    org.springframework.security: trace
+    org.springframework.web: trace
 #springdoc:
 #  swagger-ui:
 #    path: /swagger-ui/index.html

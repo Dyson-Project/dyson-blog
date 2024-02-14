@@ -11,7 +11,6 @@ import {useAuth} from "@/hooks/useAuth";
 
 export default function Home() {
     const [posts, setPosts] = useState<PostSummary[]>([]);
-    const {onOAuth2Success} = useAuth();
 
     const fetchMoreData = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/posts/reactive`, {
@@ -30,12 +29,7 @@ export default function Home() {
                 <title>{siteTitle}</title>
             </Head>
             <section className={utilStyles.headingMd}>
-                <GoogleLogin
-                    onSuccess={onOAuth2Success}
-                    onError={() => {
-                        console.log('Login Failed');
-                    }}
-                />;
+
                 <p>[Your Self Introduction]</p>
                 <p>
                     (This is a sample website - you’ll be building a site like this on{' '}
