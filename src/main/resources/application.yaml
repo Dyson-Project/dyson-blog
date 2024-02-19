@@ -38,6 +38,7 @@ logging:
     org.dyson.blog: debug
     org.springframework.security: trace
     org.springframework.web: trace
+    org.axonframework: debug
 #springdoc:
 #  swagger-ui:
 #    path: /swagger-ui/index.html
@@ -56,3 +57,6 @@ logging:
 #  server-urls:
 #    - ${server.path}
 #    - ${application.domain.server}
+axon:
+  axonserver:
+    enabled: false

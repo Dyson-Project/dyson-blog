@@ -10,25 +10,34 @@ import java.time.Instant
 
 
 @UserDefinedType("title_type")
-data class Title(
+data class DraftTitle(
     @CassandraType(type = CassandraType.Name.TEXT)
     val value: String? = null,
     @CassandraType(type = CassandraType.Name.TEXT)
     val editorState: String? = null
 )
 
+@UserDefinedType("draft_content_type")
+data class DraftContent(
+    @CassandraType(type = CassandraType.Name.TEXT)
+    val value: String?,
+    @CassandraType(type = CassandraType.Name.TEXT)
+    val editorState: String?
+)
+
 @Table
 class Draft(
     @PrimaryKey
     val keys: DraftKeys = DraftKeys(),
-
-    @CassandraType(type = CassandraType.Name.UDT, userTypeName = "address_type")
-    var title: Title,
-
-    var content: String?,
+    @CassandraType(type = CassandraType.Name.UDT, userTypeName = "title_type")
+    var title: DraftTitle,
+    @CassandraType(type = CassandraType.Name.UDT, userTypeName = "content_type")
+    var content: DraftContent,
 ) : Persistable<DraftKeys> {
     @Version
     var version: Long = 0L
+
+    var postId: String? = null
 
     @CreatedBy
     var createdBy: String? = null
@@ -51,13 +60,12 @@ data class DraftKeys(
     @CreatedDate
     @PrimaryKeyColumn(ordinal = 1, ordering = DESCENDING)
     var createdDate: Instant? = null,
-    @PrimaryKeyColumn(ordinal = 2, type = PARTITIONED)
-    val postId: String? = null
-) {
-    companion object {
-        @JvmStatic
-        fun newKeysFromPostId(postId: String?): DraftKeys {
-            return DraftKeys(postId = postId)
-        }
-    }
-}
+)
+
+@Table
+class DraftByPostId(
+    @PrimaryKeyColumn(ordinal = 1, type = PARTITIONED)
+    val postId: String,
+    val draftId: String,
+)
+

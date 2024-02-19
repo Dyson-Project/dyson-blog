@@ -20,7 +20,7 @@ public class PostController {
     final ReactivePostRepository reactiveRepository;
     final PostService postService;
 
-    @GetMapping("/reactive")
+    @GetMapping
     Flux<PostSummaryDto> listReactive(@ParameterObject Pageable pageable) {
         var page = CassandraPageRequest.of(
             pageable,

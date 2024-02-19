@@ -6,7 +6,7 @@ import java.util.*
 
 data class PublishPostRequest(
     val draftId: String?,
-    val categoryId: String?,
+    val categoryId: String,
     val titleEditorState: String,
     val contentEditorState: String,
 )
@@ -15,16 +15,20 @@ data class PostDto(
     val postId: String,
     val categoryId: String?,
     val title: String,
+    val titleEditorState: String,
     val content: String?,
+    val contentEditorState: String?,
     val createdDate: Instant?,
     val lastModifiedDate: Instant?,
     val createdBy: String?,
 ) {
     constructor(p: Post) : this(
         postId = p.keys.postId,
-        title = p.title,
+        title = p.title.value,
+        titleEditorState = p.title.editorState,
+        content=p.content.value,
+        contentEditorState=p.content.editorState,
         categoryId = p.categoryId,
-        content = p.content,
         createdDate = p.keys.createdDate,
         lastModifiedDate = p.lastModifiedDate,
         createdBy = p.createdBy

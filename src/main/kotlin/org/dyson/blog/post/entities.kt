@@ -1,14 +1,11 @@
 package org.dyson.blog.post
 
 import org.apache.commons.lang3.RandomStringUtils
-import org.dyson.blog.draft.Title
+import org.dyson.blog.draft.DraftKeys
 import org.springframework.data.annotation.*
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
-import org.springframework.data.cassandra.core.mapping.PrimaryKey
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
-import org.springframework.data.cassandra.core.mapping.Table
+import org.springframework.data.cassandra.core.mapping.*
 import org.springframework.data.domain.Persistable
 import java.time.Instant
 
@@ -33,16 +30,33 @@ enum class PostStatus {
     PUBLISHED, DELETED
 }
 
+
+@UserDefinedType("post_title_type")
+data class PostTitle(
+    @CassandraType(type = CassandraType.Name.TEXT)
+    val value: String,
+    @CassandraType(type = CassandraType.Name.TEXT)
+    val editorState: String
+)
+
+@UserDefinedType("post_content_type")
+data class PostContent(
+    @CassandraType(type = CassandraType.Name.TEXT)
+    val value: String,
+    @CassandraType(type = CassandraType.Name.TEXT)
+    val editorState: String
+)
+
 @Table
-data class Post(
+class Post(
     @PrimaryKey
     val keys: PostKeys = PostKeys(),
     var categoryId: String?,
     var type: PostType?,
-    var title: Title,
+    var title: PostTitle,
+    var content: PostContent,
     var point: Int = 0,
     var url: String?,
-    var content: String?,
     var status: PostStatus = PostStatus.PUBLISHED,
 ) : Persistable<PostKeys> {
     @Version
@@ -60,9 +74,9 @@ data class Post(
     constructor(
         category: String,
         type: PostType,
-        title: String,
+        title: PostTitle,
         url: String?,
-        content: String
+        content: PostContent
     ) : this(
         categoryId = category,
         type = type,
@@ -84,4 +98,7 @@ data class PostKeys(
     @CreatedDate
     @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
     var createdDate: Instant? = null,
-)
+){
+    companion object {
+    }
+}

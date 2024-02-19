@@ -21,8 +21,8 @@ export default function Edit() {
 
     const saveDraft = async (draft: EditingDraft): Promise<AxiosResponse<void>> => {
         return updateDraft(draftId, {
-            title: JSON.stringify(convertToRaw(draft.titleEditorState.getCurrentContent())),
-            content: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))
+            titleEditorState: JSON.stringify(convertToRaw(draft.titleEditorState.getCurrentContent())),
+            contentEditorState: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))
         })
     }
     const onClickPublish: MouseEventHandler<HTMLButtonElement> = async (event: React.MouseEvent<HTMLButtonElement>) => {

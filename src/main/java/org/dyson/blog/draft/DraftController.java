@@ -2,8 +2,8 @@ package org.dyson.blog.draft;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,10 +17,11 @@ import static org.springframework.http.HttpStatus.*;
 public class DraftController {
     final DraftService draftService;
     final DraftRepository draftRepository;
+    final ReactorQueryGateway reactorQueryGateway;
 
     @GetMapping
-    Flux<DraftSummaryDto> list(@ParameterObject Pageable pageable) {
-        return draftService.getDrafts(pageable);
+    Flux<DraftSummaryDto> list(@ParameterObject GetDraftsQuery query) {
+        return reactorQueryGateway.streamingQuery(query, DraftSummaryDto.class);
     }
 
     @PostMapping
@@ -36,9 +37,8 @@ public class DraftController {
     }
 
     @GetMapping("/{id}")
-    Mono<DraftDto> get(@PathVariable String id) {
-        return draftRepository.findByKeys_DraftId(id)
-            .map(DraftDto::new);
+    Mono<DraftDto> get(@ParameterObject GetDraftQuery query) {
+        return reactorQueryGateway.streamingQuery(query, DraftDto.class).next();
     }
 
     @DeleteMapping("/{id}")

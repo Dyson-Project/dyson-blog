@@ -1,8 +1,9 @@
 export interface Draft {
     id: string,
-    title: string,
-    titleEditorState: string,
-    content: string
+    title?: string,
+    titleEditorState?: string,
+    content?: string,
+    contentEditorState?: string
     createdDate: string,
     lastModifiedDate: string,
     createdBy: string

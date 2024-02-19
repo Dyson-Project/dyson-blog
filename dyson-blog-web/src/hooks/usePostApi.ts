@@ -5,13 +5,10 @@ import {useAuth} from "@/hooks/useAuth";
 import {Pageable} from "@/types/api";
 
 export interface CreatePostRequest {
-    title?: string;
-    content?: string;
-}
-
-export interface UpdatePostRequest {
-    title?: string;
-    content?: string;
+    draftId?: string,
+    categoryId: string,
+    titleEditorState: string,
+    contentEditorState: string
 }
 
 export const usePostApi = () => {
@@ -30,13 +27,9 @@ export const usePostApi = () => {
         return bearerTokenAxios(user?.authToken!)
             .post(`/api/v1/posts`, post);
     }
-    const updatePost = (id: string, body: UpdatePostRequest): Promise<AxiosResponse<void>> => {
-        return bearerTokenAxios(user?.authToken!)
-            .put(`/api/v1/posts/${id}`, body);
-    }
     const deletePost = (id: string): Promise<AxiosResponse<void>> => {
         return bearerTokenAxios(user?.authToken!)
             .delete(`/api/v1/posts/${id}`);
     }
-    return {getPosts, publishPost, updatePost, deletePost}
+    return {getPosts, publishPost, deletePost}
 }

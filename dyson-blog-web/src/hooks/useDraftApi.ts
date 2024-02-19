@@ -5,13 +5,14 @@ import {useAuth} from "@/hooks/useAuth";
 import {Pageable} from "@/types/api";
 
 export interface CreateDraftRequest {
-    title?: string;
-    content?: string;
+    postId?: string;
+    titleEditorState?: string;
+    contentEditorState?: string;
 }
 
 export interface UpdateDraftRequest {
-    title?: string;
-    content?: string;
+    titleEditorState?: string;
+    contentEditorState?: string;
 }
 
 export const useDraftApi = () => {

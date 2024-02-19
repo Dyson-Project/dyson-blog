@@ -4,38 +4,38 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import utilStyles from "@/styles/utils.module.scss";
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
-import {DraftSummary} from "@/types/draft";
-import {useDraftApi} from "@/hooks/useDraftApi";
+import {usePostApi} from "@/hooks/usePostApi";
 
-export interface DraftsInfiniteScrollProps {
+export interface PostsInfiniteScrollProps {
 }
 
-const DraftsInfiniteScroll = ({}: DraftsInfiniteScrollProps) => {
-    const [drafts, setDrafts] = useState<DraftSummary[]>([]);
-    const {getDrafts} = useDraftApi();
+const PostsInfiniteScroll = ({}: PostsInfiniteScrollProps) => {
+    const [posts, setPosts] = useState<PostSummary[]>([]);
+    const {getPosts} = usePostApi();
 
     useEffect(() => {
         fetchMoreData();
     }, []);
 
     const fetchMoreData = () => {
-        getDrafts({})
+        getPosts({})
             .then((value: AxiosResponse<PostSummary[]>) => {
                 const fetchedPosts = value.data;
-                setDrafts(drafts.concat(fetchedPosts));
+                setPosts(posts.concat(fetchedPosts));
             })
             .catch(reason => {
                 console.error(reason);
             })
     }
+
     return <InfiniteScroll style={{}} next={fetchMoreData}
                            hasMore={true}
                            loader={<h4>...</h4>}
-                           dataLength={drafts.length}>
+                           dataLength={posts.length}>
         {
-            drafts.map(({id, title, lastModifiedDate}) => (
+            posts.map(({id, title, lastModifiedDate}) => (
                 <li className={utilStyles.listItem} key={id}>
-                    <Link href={`/draft/${id}/edit`}> {title || "untitled story"} </Link>
+                    <Link href={`/post/${id}`}> {title} </Link>
                     <br/>
                     <small className={utilStyles.lightText}>
                         {lastModifiedDate}
@@ -46,4 +46,4 @@ const DraftsInfiniteScroll = ({}: DraftsInfiniteScrollProps) => {
         }
     </InfiniteScroll>
 }
-export default DraftsInfiniteScroll;
+export default PostsInfiniteScroll;
