@@ -1,9 +1,11 @@
-import Layout from "../../components/Layout";
-import {getAllPostIds, getPostData} from "../../libs/posts";
+// import Layout from "../../components/Layout";
+// import {getAllPostIds, getPostData} from "../../libs/posts";
 import Head from "next/head";
-import DateText from "../../components/DateText";
+import DateText from "@/components/DateText";
 
-import utilStyles from "../../styles/utils.module.scss";
+import utilStyles from "@/styles/utils.module.scss";
+import {getAllPostIds, getPostData} from "@/libs/posts";
+import Layout from "@/components/Layout";
 
 export default function Post({post}) {
     return <Layout home={false}>

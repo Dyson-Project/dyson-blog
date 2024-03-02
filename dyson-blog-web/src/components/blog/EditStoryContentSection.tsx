@@ -29,6 +29,7 @@ import {
 import SendError from "@/components/error/SendError";
 import StoryTitle from "@/components/blog/StoryTitle";
 import {useDraftApi} from "@/hooks/useDraftApi";
+import {Draft} from "@/types/draft";
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
@@ -42,7 +43,9 @@ export interface EditingDraft {
 
 interface StoryContentSectionProps {
     draftId?: string,
+    draft?: Draft,
     saveDraft: (editingDraft: EditingDraft) => Promise<any> | undefined,
+    publishPost: (editingDraft: EditingDraft) => Promise<any> | undefined
 }
 
 const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
@@ -50,6 +53,7 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
     const [error, setError] = useState<Object>(null);
     const [draftId, setDraftId] = useState<string | undefined>(props.draftId);
     const [isSavingDraft, setIsSavingDraft] = useState<boolean>(false);
+    const [isPublishing, setIsIsPublishing] = useState<boolean>(false);
     const [initTitle, setInitTitle] = useState<string | undefined>();
     const [titleEditorState, setTitleEditorState] = useState<EditorState>(EditorState.createEmpty());
     const contentEditorRef = useRef<Editor | undefined>();
@@ -94,8 +98,17 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
 
     useEffect(() => {
         // fixing issue with SSR https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
-        if (draftId) {
-            getDraft(draftId)
+        if (props.draft) {
+            let draft = props.draft;
+            if (draft.titleEditorState) {
+                console.log("set title", JSON.parse(draft.titleEditorState));
+                setTitleEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(draft.titleEditorState))));
+                setInitTitle(draft.titleEditorState);
+            }
+            if (draft.contentEditorState)
+                setContentEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(draft.contentEditorState))));
+        } else if (props.draftId) {
+            getDraft(props.draftId)
                 .then((value) => {
                     let data = value.data;
                     if (data) {
@@ -104,14 +117,14 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
                             setTitleEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.titleEditorState))));
                             setInitTitle(data.titleEditorState);
                         }
-                        if (data.content)
-                            setContentEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.content))));
+                        if (data.contentEditorState)
+                            setContentEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.contentEditorState))));
                     } else
                         setError("Not found")
                 })
                 .catch(reason => {
-                    console.error(reason)
-                    setError(reason)
+                    console.error(reason);
+                    setError(reason);
                 });
         }
     }, []);
@@ -123,6 +136,14 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
             contentEditorState: contentEditorState
         })
         setIsSavingDraft(false);
+    }
+    const onClickPublish: MouseEventHandler<HTMLButtonElement> = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        setIsIsPublishing(true);
+        await props.publishPost({
+            titleEditorState: titleEditorState,
+            contentEditorState: contentEditorState
+        })
+        setIsIsPublishing(false);
     }
 
     const focus = () => {
@@ -173,6 +194,11 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
                     onClick={onClickSaveDraft}
                     loading={isSavingDraft}>
                     Save draft
+                </LoadingButton>
+                <LoadingButton
+                    onClick={onClickPublish}
+                    loading={isPublishing}>
+                    Publish
                 </LoadingButton>
             </div>
     )
