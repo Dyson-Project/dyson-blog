@@ -1,17 +1,28 @@
-import {useState} from "react";
-import {useLocalStorage} from "@/hooks/useLocalStorage";
+const ACCESS_TOKEN = "token";
+export const jwtService = () => {
+    const setItem = (key: string, value: string) => {
+        localStorage.setItem(key, value);
+    };
 
-export const useJwt = () => {
-    const {setItem, getItem} = useLocalStorage();
-    // const [accessToken, setAccessToken] = useState<string | null>(null);
+    const getItem = (key: string) => {
+        return localStorage.getItem(key);
+    };
 
-    const getToken = (): string | null => {
-        return accessToken;
+    const removeItem = (key: string) => {
+        localStorage.removeItem(key);
+    };
+
+    const getToken = (): string | undefined => {
+        return getItem(ACCESS_TOKEN);
     }
 
     const removeToken = () => {
-        setAccessToken(null);
+        removeItem(ACCESS_TOKEN)
     }
 
-    return {getToken, setAccessToken, removeToken}
+    const setToken = (token: string) => {
+        setItem(ACCESS_TOKEN, token);
+    }
+
+    return {getToken, setToken, removeToken}
 }

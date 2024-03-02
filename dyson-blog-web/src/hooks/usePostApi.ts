@@ -4,7 +4,7 @@ import {Post, PostSummary} from "@/types/post";
 import {useAuth} from "@/hooks/useAuth";
 import {Pageable} from "@/types/api";
 
-export interface CreatePostRequest {
+export interface PublishPostRequest {
     draftId?: string,
     categoryId: string,
     titleEditorState: string,
@@ -12,24 +12,24 @@ export interface CreatePostRequest {
 }
 
 export const usePostApi = () => {
-    const {user} = useAuth();
+    const {token} = useAuth();
     const {bearerTokenAxios} = useAuthApi({baseURL: process.env.NEXT_PUBLIC_API_HOST});
 
     const getPosts = (pageable: Pageable): Promise<AxiosResponse<PostSummary[]>> => {
-        return bearerTokenAxios(user?.authToken!)
-            .get(`/api/v1/posts`);
+        return bearerTokenAxios(token)
+            .get(`/api/v1/posts`)
     }
     const getPost = (id: string): Promise<AxiosResponse<Post>> => {
-        return bearerTokenAxios(user?.authToken!)
+        return bearerTokenAxios(token)
             .get(`/api/v1/posts/${id}`);
     }
-    const publishPost = (post: CreatePostRequest): Promise<AxiosResponse<Post>> => {
-        return bearerTokenAxios(user?.authToken!)
+    const publishPost = (post: PublishPostRequest): Promise<AxiosResponse<String>> => {
+        return bearerTokenAxios(token)
             .post(`/api/v1/posts`, post);
     }
     const deletePost = (id: string): Promise<AxiosResponse<void>> => {
-        return bearerTokenAxios(user?.authToken!)
+        return bearerTokenAxios(token)
             .delete(`/api/v1/posts/${id}`);
     }
-    return {getPosts, publishPost, deletePost}
+    return {getPosts, getPost, publishPost, deletePost}
 }

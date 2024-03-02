@@ -3,21 +3,22 @@ import {AxiosResponse} from "axios";
 import SendError from "@/components/error/SendError";
 import {useRouter} from "next/router";
 import Layout from "@/components/Layout";
-import StoryContentSection, {EditingDraft} from "@/components/blog/StoryContentSection";
+import EditStoryContentSection, {EditingDraft} from "@/components/blog/EditStoryContentSection";
 import {convertToRaw, EditorState} from "draft-js";
-import LoadingButton from "@mui/lab/LoadingButton";
-import React, {MouseEventHandler, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDraftApi} from "@/hooks/useDraftApi";
 import {usePostApi} from "@/hooks/usePostApi";
+import {Draft} from "@/types/draft";
 
 export default function Edit() {
     const router = useRouter();
     const draftId = router.query.id as string;
-    const titleEditorStateRef = useRef<EditorState>();
-    const contentEditorStateRef = useRef<EditorState>();
+    // const titleEditorStateRef = useRef<EditorState>();
+    // const contentEditorStateRef = useRef<EditorState>();
     const [isPublishing, setPublishing] = useState(false);
-    const {updateDraft} = useDraftApi();
-    const {publishPost} = usePostApi();
+    const [draft, setDraft] = useState<Draft | undefined>();
+    const {getDraft, updateDraft} = useDraftApi();
+    const {publishPost: publishPostApi} = usePostApi();
 
     const saveDraft = async (draft: EditingDraft): Promise<AxiosResponse<void>> => {
         return updateDraft(draftId, {
@@ -25,35 +26,41 @@ export default function Edit() {
             contentEditorState: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))
         })
     }
-    const onClickPublish: MouseEventHandler<HTMLButtonElement> = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(titleEditorStateRef.current)
-        // publishPost({
-        //     id: draftId,
-        //     title: JSON.stringify(convertToRaw(titleEditorStateRef.current.getCurrentContent())),
-        //     content: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))
-        // }).catch(reason => {
-        //     console.error(reason);
-        // })
+
+    const publishPost = async (draft: EditingDraft): Promise<AxiosResponse<String>> => {
+        return publishPostApi({
+            draftId: draftId,
+            categoryId: "",
+            titleEditorState: JSON.stringify(convertToRaw(draft.titleEditorState.getCurrentContent())),
+            contentEditorState: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))
+        })
     }
+    useEffect(() => {
+        getDraft(draftId)
+            .then((value) => {
+                let draft = value.data;
+                if (draft)
+                    setDraft(draft);
+            })
+            .catch(reason => {
+                console.error(reason);
+            })
+    }, []);
+
 
     return <Layout home={false}>
         {draftId ?
             <>
                 <Head>
-                    <title>Editing {draftId} story</title>
+                    <title>Editing: {draft?.title}</title>
                 </Head>
-                <StoryContentSection
+                <EditStoryContentSection
                     draftId={draftId}
                     saveDraft={saveDraft}
-                    ref={(titleEditorState: EditorState) => {
-                        titleEditorStateRef.current = titleEditorState
-                    }}
+                    publishPost={publishPost}
+                    draft={draft}
                 />
-                <LoadingButton
-                    onClick={onClickPublish}
-                    loading={isPublishing}>
-                    Publish
-                </LoadingButton>
+
             </>
             : <SendError>Edit error</SendError>}
     </Layout>

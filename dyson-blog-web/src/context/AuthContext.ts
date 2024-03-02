@@ -3,8 +3,8 @@ import {User} from "@/types/user";
 
 
 export interface AuthContextState {
-    user: User | null;
-    token: string | null;
+    user?: User;
+    token?: string;
     isAuthenticated: boolean;
 }
 
@@ -44,9 +44,7 @@ export const authReducer = (state: AuthContextState, action: AuthAction) => {
 };
 
 export const INITIAL_AUTH_CONTEXT_STATE: AuthContextState = {
-    isAuthenticated: false,
-    user: null,
-    token: null
+    isAuthenticated: false
 };
 
 export const AuthContext = createContext<AuthContextProps>({

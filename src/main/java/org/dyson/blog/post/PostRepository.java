@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface ReactivePostRepository extends ReactiveCassandraRepository<Post, PostKeys> {
+public interface PostRepository extends ReactiveCassandraRepository<Post, PostKeys> {
 
     @Query("select postId, title, lastModifiedDate from post")
     Flux<PostSummaryDto> findAll(Pageable pageable);

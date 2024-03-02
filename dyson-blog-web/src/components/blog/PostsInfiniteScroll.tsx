@@ -20,11 +20,12 @@ const PostsInfiniteScroll = ({}: PostsInfiniteScrollProps) => {
     const fetchMoreData = () => {
         getPosts({})
             .then((value: AxiosResponse<PostSummary[]>) => {
+                console.log(value)
                 const fetchedPosts = value.data;
                 setPosts(posts.concat(fetchedPosts));
             })
             .catch(reason => {
-                console.error(reason);
+                console.log(reason);
             })
     }
 

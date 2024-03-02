@@ -1,61 +1,69 @@
-import {userLocalStorage} from "@/hooks/useLocalStorage";
 import {useContext, useEffect} from "react";
-import {JwtPayload, LoginRequest, newUser, User} from "@/types/user";
+import {JwtPayload, newUser, User} from "@/types/user";
 import {AuthContext, AuthContextProps, EAuthActions, INITIAL_AUTH_CONTEXT_STATE} from "@/context/AuthContext";
 import {useRouter} from "next/router";
 import {CredentialResponse, googleLogout} from "@react-oauth/google";
+import {jwtService} from "@/hooks/jwtService";
 
-function decodeTokenPayload(token: string): any {
-    return JSON.parse(decodeURIComponent(atob(token.split(".")[1]).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join('')));
-}
+export const USER = "user";
 
 export const useAuth = () => {
     const {state, dispatch} = useContext<AuthContextProps>(AuthContext);
-    const {getItem, setItem, removeItem} = userLocalStorage();
     const router = useRouter();
+    const {setToken, getToken, removeToken} = jwtService();
 
     useEffect(() => {
         (async function () {
-            const userRaw = getItem("user");
-            if (userRaw) {
-                let user: User = JSON.parse(userRaw);
-                if (user.authToken)
+            const user = getUser();
+            const token = getToken();
+            if (user) {
+                if (token)
                     dispatch({
                         type: EAuthActions.LOGIN,
                         payload: {
                             isAuthenticated: true,
                             user: user,
-                            token: user.authToken
+                            token: token
                         }
                     })
             }
         })();
     }, []);
 
-    const login = (loginRequest: LoginRequest) => {
-        (async function () {
-            let token = "token" // TODO: complete me
-            let user = newUser({
-                id: '1',
-                username: 'TikTuzki',
-                name: 'TikTuzki',
-                email: 'tiktuzki@gmail.com',
-                authToken: token,
-            });
-            setItem("user", JSON.stringify(user));
-            dispatch({
-                type: EAuthActions.LOGIN,
-                payload: {
-                    isAuthenticated: true,
-                    user: user,
-                    token: token
-                }
-            });
-            await router.replace("/");
-        })();
-    };
+    // const login = (loginRequest: LoginRequest) => {
+    //     (async function () {
+    //         let token = "token" // TODO: complete me
+    //         let user = newUser({
+    //             id: '1',
+    //             username: 'TikTuzki',
+    //             name: 'TikTuzki',
+    //             email: 'tiktuzki@gmail.com',
+    //             authToken: token,
+    //         });
+    //         setItem("user", JSON.stringify(user));
+    //         dispatch({
+    //             type: EAuthActions.LOGIN,
+    //             payload: {
+    //                 isAuthenticated: true,
+    //                 user: user,
+    //                 token: token
+    //             }
+    //         });
+    //         await router.replace("/");
+    //     })();
+    // };
+
+    const setUser = (user: User) => {
+        localStorage.setItem(USER, JSON.stringify(user));
+    }
+    const removeUser = () => {
+        localStorage.removeItem(USER);
+    }
+
+    const getUser = (): User | undefined => {
+        return JSON.parse(localStorage.getItem(USER));
+    }
+
     const onOAuth2Success = (credentialResponse: CredentialResponse) => {
         const token = credentialResponse.credential!;
         const payload: JwtPayload = decodeTokenPayload(token);
@@ -64,10 +72,12 @@ export const useAuth = () => {
             name: payload.name,
             email: payload.email,
             username: payload.email,
-            authToken: token,
             avatar: payload.picture
         })
-        setItem("user", JSON.stringify(user));
+
+        setUser(user);
+        setToken(token);
+
         dispatch({
             type: EAuthActions.LOGIN,
             payload: {
@@ -78,19 +88,36 @@ export const useAuth = () => {
         });
     }
     const logout = () => {
+        removeUser();
+        removeToken();
+
+        googleLogout();
+        dispatch({
+            type: EAuthActions.LOGOUT,
+            payload: INITIAL_AUTH_CONTEXT_STATE
+        });
+    }
+
+    const logoutAndRedirect = () => {
+        logout();
         (async function () {
-            removeItem("user");
-            googleLogout();
-            dispatch({
-                type: EAuthActions.LOGOUT,
-                payload: INITIAL_AUTH_CONTEXT_STATE
-            });
-            await router.replace("/login")
+            await router.replace("/login");
         })();
     }
 
-    const user = state.user;
-    const isAuthenticated = state.isAuthenticated;
+    function decodeTokenPayload(token: string): any {
+        return JSON.parse(decodeURIComponent(atob(token.split(".")[1]).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join('')));
+    }
 
-    return {isAuthenticated, user, onOAuth2Success, login, logout};
+
+    return {
+        isAuthenticated: state.isAuthenticated,
+        user: state.user,
+        token: state.token,
+        onOAuth2Success,
+        logout,
+        logoutAndRedirect
+    };
 };

@@ -12,7 +12,7 @@ data class PublishPostRequest(
 )
 
 data class PostDto(
-    val postId: String,
+    val id: String,
     val categoryId: String?,
     val title: String,
     val titleEditorState: String,
@@ -23,7 +23,7 @@ data class PostDto(
     val createdBy: String?,
 ) {
     constructor(p: Post) : this(
-        postId = p.keys.postId,
+        id= p.keys.postId,
         title = p.title.value,
         titleEditorState = p.title.editorState,
         content=p.content.value,
@@ -37,7 +37,8 @@ data class PostDto(
 
 interface PostSummaryDto {
     @get:Value("#{target.keys.postId}")
-    val id: UUID?
+    val id: String?
+    @get:Value("#{target.title.value}")
     val title: String?
     val lastModifiedDate: Instant?
 }

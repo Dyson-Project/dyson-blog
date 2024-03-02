@@ -62,10 +62,16 @@ data class DraftKeys(
     var createdDate: Instant? = null,
 )
 
-@Table
+@Table("draft_by_post_id")
 class DraftByPostId(
-    @PrimaryKeyColumn(ordinal = 1, type = PARTITIONED)
-    val postId: String,
-    val draftId: String,
+    @PrimaryKey
+    val keys: DraftByPostIdKeys
 )
 
+@PrimaryKeyClass
+data class DraftByPostIdKeys(
+    @PrimaryKeyColumn(ordinal = 1, type = PARTITIONED, name = "post_id")
+    val postId: String,
+    @PrimaryKeyColumn(ordinal = 2, type = PARTITIONED, name = "draft_id")
+    val draftId: String,
+)

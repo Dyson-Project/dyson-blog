@@ -1,6 +1,6 @@
 package org.dyson.blog;
 
-import org.dyson.blog.post.ReactivePostRepository;
+import org.dyson.blog.post.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class BlogRepositoryIntegrationTest {
 
     @Autowired
-    private ReactivePostRepository reactiveBlogRepository;
+    private PostRepository reactiveBlogRepository;
 
     @BeforeEach
     public void setUp() {

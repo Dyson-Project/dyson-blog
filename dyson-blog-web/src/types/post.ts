@@ -1,7 +1,12 @@
 export interface Post {
     id: string,
     title: string,
-    date: string
+    titleEditorState: string,
+    content: string
+    contentEditorState: string
+    createdDate: Date
+    lastModifiedDate: Date
+    createdBy: string
 }
 
 export interface PostSummary {

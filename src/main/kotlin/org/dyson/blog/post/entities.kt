@@ -1,7 +1,6 @@
 package org.dyson.blog.post
 
 import org.apache.commons.lang3.RandomStringUtils
-import org.dyson.blog.draft.DraftKeys
 import org.springframework.data.annotation.*
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -54,7 +53,7 @@ class Post(
     var categoryId: String?,
     var type: PostType?,
     var title: PostTitle,
-    var content: PostContent,
+    var content: PostContent = PostContent("", ""),
     var point: Int = 0,
     var url: String?,
     var status: PostStatus = PostStatus.PUBLISHED,
@@ -98,7 +97,7 @@ data class PostKeys(
     @CreatedDate
     @PrimaryKeyColumn(ordinal = 2, ordering = DESCENDING)
     var createdDate: Instant? = null,
-){
+) {
     companion object {
     }
 }

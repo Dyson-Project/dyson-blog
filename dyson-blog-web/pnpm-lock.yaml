@@ -59,6 +59,12 @@ dependencies:
   '@react-oauth/google':
     specifier: ^0.12.1
     version: 0.12.1(react-dom@18.2.0)(react@18.2.0)
+  '@types/dompurify':
+    specifier: ^3.0.5
+    version: 3.0.5
+  '@types/draft-convert':
+    specifier: ^2.1.8
+    version: 2.1.8
   '@types/draft-js':
     specifier: ^0.11.17
     version: 0.11.17
@@ -71,6 +77,12 @@ dependencies:
   date-fns:
     specifier: ^3.3.1
     version: 3.3.1
+  dompurify:
+    specifier: ^3.0.9
+    version: 3.0.9
+  draft-convert:
+    specifier: ^2.1.13
+    version: 2.1.13(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0)
   draft-js:
     specifier: 0.11.5
     version: 0.11.5(react-dom@18.2.0)(react@18.2.0)
@@ -2924,7 +2936,7 @@ packages:
     dev: false
 
   /@react-oauth/google@0.12.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: { integrity: sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg== }
+    resolution: {integrity: sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -3199,6 +3211,19 @@ packages:
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
     dependencies:
       '@types/ms': 0.7.34
+    dev: false
+
+  /@types/dompurify@3.0.5:
+    resolution: {integrity: sha512-1Wg0g3BtQF7sSb27fJQAKck1HECM6zV1EB66j8JH9i3LCjYabJa0FSdiSgsD5K/RbrsR0SiraKacLB+T8ZVYAg==}
+    dependencies:
+      '@types/trusted-types': 2.0.7
+    dev: false
+
+  /@types/draft-convert@2.1.8:
+    resolution: {integrity: sha512-gzHXLnOhDqdDv3ieMCZjqbmP992MBBn1u9HrhrCQ4+sip2pFz7d+fXL4GqaBgFjM/A5+iSNRhkr4ZP4tMR3jWw==}
+    dependencies:
+      '@types/draft-js': 0.11.17
+      '@types/react': 18.2.54
     dev: false
 
   /@types/draft-js@0.11.17:
@@ -5272,6 +5297,10 @@ packages:
       domelementtype: 2.3.0
     dev: false
 
+  /dompurify@3.0.9:
+    resolution: {integrity: sha512-uyb4NDIvQ3hRn6NiC+SIFaP4mJ/MdXlvtunaqK9Bn6dD3RuB/1S/gasEjDHD8eiaqdSael2vBv+hOs7Y+jhYOQ==}
+    dev: false
+
   /domutils@1.7.0:
     resolution: {integrity: sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==}
     dependencies:
@@ -5301,6 +5330,21 @@ packages:
   /dotenv@10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
     engines: {node: '>=10'}
+    dev: false
+
+  /draft-convert@2.1.13(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-/h/n4JCfyO8aWby7wKBkccHdsuVbbDyHWXi/B3Zf2pN++lN1lDOIVt5ulXCcbH2Y5YJEFzMJw/YGfN+R0axxxg==}
+    peerDependencies:
+      draft-js: '>=0.7.0'
+      react: ^15.0.2 || ^16.0.0-rc || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^15.0.2 || ^16.0.0-rc || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.23.9
+      draft-js: 0.11.5(react-dom@18.2.0)(react@18.2.0)
+      immutable: 3.7.6
+      invariant: 2.2.4
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /draft-js-plugins-editor@2.1.1(draft-js@0.11.5)(react-dom@18.2.0)(react@18.2.0):
@@ -6957,6 +7001,12 @@ packages:
       es-errors: 1.3.0
       hasown: 2.0.0
       side-channel: 1.0.4
+
+  /invariant@2.2.4:
+    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: false
 
   /ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}

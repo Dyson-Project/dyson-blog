@@ -16,28 +16,27 @@ export interface UpdateDraftRequest {
 }
 
 export const useDraftApi = () => {
-    const {user} = useAuth();
+    const {user, token} = useAuth();
     const {bearerTokenAxios} = useAuthApi({baseURL: process.env.NEXT_PUBLIC_API_HOST});
 
     const getDrafts = (pageable: Pageable): Promise<AxiosResponse<DraftSummary[]>> => {
-        console.log(user?.authToken);
-        return bearerTokenAxios(user?.authToken!)
+        return bearerTokenAxios(token)
             .get(`/api/v1/drafts`);
     }
     const getDraft = (id: string): Promise<AxiosResponse<Draft>> => {
-        return bearerTokenAxios(user?.authToken!)
+        return bearerTokenAxios(token)
             .get(`/api/v1/drafts/${id}`);
     }
-    const createDraft = (draft: CreateDraftRequest): Promise<AxiosResponse<Draft>> => {
-        return bearerTokenAxios(user?.authToken!)
+    const createDraft = (draft: CreateDraftRequest): Promise<AxiosResponse<String>> => {
+        return bearerTokenAxios(token)
             .post(`/api/v1/drafts`, draft);
     }
     const updateDraft = (id: string, body: UpdateDraftRequest): Promise<AxiosResponse<void>> => {
-        return bearerTokenAxios(user?.authToken!)
+        return bearerTokenAxios(token)
             .put(`/api/v1/drafts/${id}`, body);
     }
     const deleteDraft = (id: string): Promise<AxiosResponse<void>> => {
-        return bearerTokenAxios(user?.authToken!)
+        return bearerTokenAxios(token)
             .delete(`/api/v1/drafts/${id}`);
     }
     return {getDrafts, getDraft, createDraft, updateDraft, deleteDraft}

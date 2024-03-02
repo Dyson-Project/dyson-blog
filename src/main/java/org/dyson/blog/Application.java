@@ -2,6 +2,7 @@ package org.dyson.blog;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.queryhandling.QueryBus;
 import org.dyson.blog.draft.DraftRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

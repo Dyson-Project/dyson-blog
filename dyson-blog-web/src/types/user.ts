@@ -6,7 +6,6 @@ export interface User {
     name: string;
     email: string;
     avatar: string;
-    authToken?: string;
 }
 
 export function newUser(args: {
@@ -15,7 +14,6 @@ export function newUser(args: {
     name: string;
     email: string;
     avatar?: string;
-    authToken?: string;
 }): User {
     return {
         avatar: args.avatar || DEFAULT_AVATAR,

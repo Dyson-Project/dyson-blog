@@ -52,7 +52,7 @@ configurations {
 }
 
 dependencies {
-    implementation platform("org.axonframework:axon-bom:4.8.0")
+    implementation platform("org.axonframework:axon-bom:4.9.1")
 
     implementation 'org.springframework.boot:spring-boot-starter-data-cassandra-reactive'
 //    implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -83,7 +83,6 @@ dependencies {
     implementation "org.axonframework:axon-messaging"
     implementation "org.axonframework.extensions.reactor:axon-reactor-spring-boot-starter"
 
-    implementation platform("org.axonframework:axon-bom:4.9.2")
 }
 
 test {

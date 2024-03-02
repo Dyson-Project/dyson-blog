@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import StoryContentSection, {EditingDraft} from "@/components/blog/StoryContentSection";
+import EditStoryContentSection, {EditingDraft} from "@/components/blog/EditStoryContentSection";
 import {convertToRaw} from "draft-js";
 import {useRouter} from "next/router";
 import {useDraftApi} from "@/hooks/useDraftApi";
@@ -20,8 +20,8 @@ export default function NewStory() {
             contentEditorState: JSON.stringify(convertToRaw(draft.contentEditorState.getCurrentContent()))
         })
             .then(value => {
-                let data = value.data;
-                router.replace(`/draft/${data.id}/edit`);
+                let id = value.data;
+                router.replace(`/draft/${id}/edit`);
             })
             .catch(reason => {
                 console.error(reason);
@@ -32,7 +32,7 @@ export default function NewStory() {
         <Head>
             <title>New story</title>
         </Head>
-        <StoryContentSection
+        <EditStoryContentSection
             saveDraft={saveDraft}/>
     </Layout>
 }

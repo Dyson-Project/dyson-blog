@@ -19,12 +19,12 @@ export default function SignIn() {
     const prevPath = router.query.prevPath as string;
 
     const redirectToIndexIfAuthenticated = async () => {
-        console.log(prevPath);
+        console.log(prevPath, isAuthenticated);
         if (isAuthenticated)
             if (prevPath)
                 await router.replace(prevPath);
             else
-                await router.back();
+                await router.replace("/")
     }
 
     useEffect(() => {

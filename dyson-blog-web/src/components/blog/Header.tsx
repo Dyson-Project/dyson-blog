@@ -29,7 +29,7 @@ interface HeaderProps {
 export default function Header(props: HeaderProps) {
     const {sections, title} = props;
     const router = useRouter();
-    const {isAuthenticated, user, logout} = useAuth();
+    const {isAuthenticated, user, logoutAndRedirect} = useAuth();
     const theme = useTheme();
     const {toggleColorMode} = useContext(ColorModeContext);
     const rightSideComponents = isAuthenticated && user ?
@@ -46,7 +46,7 @@ export default function Header(props: HeaderProps) {
                     <Image src={user.avatar} alt="user-avatar" width={50} height={50}/>
                 </Avatar>
             </Link>
-            <Button onClick={logout}>Logout</Button>
+            <Button onClick={logoutAndRedirect}>Logout</Button>
         </>
         : <Button href={`/login?prevPath=${router.pathname}`} LinkComponent={Link}>Login</Button>
     return (

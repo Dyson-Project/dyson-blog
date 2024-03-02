@@ -13,6 +13,7 @@ import {TabContext, TabList, TabPanel} from "@mui/lab";
 import Box from "@mui/material/Box";
 import {Tab} from "@mui/material";
 import DraftsInfiniteScroll from "@/components/blog/DraftsInfiniteScroll";
+import PostsInfiniteScroll from "@/components/blog/PostsInfiniteScroll";
 
 export interface ProfileProps {
 }
@@ -23,9 +24,11 @@ const Profile = ({}: ProfileProps) => {
     const profileId = router.query.id as string;
     const [profile, setProfile] = useState<Profile>();
     const [drafts, setDrafts] = useState<DraftSummary[]>();
-    useEffect(() => {
-    }, []);
     const [value, setValue] = React.useState('1');
+
+    useEffect(() => {
+        console.log(profile, router.query.id)
+    }, []);
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -62,7 +65,9 @@ const Profile = ({}: ProfileProps) => {
                 <TabPanel value="1">
                     <DraftsInfiniteScroll/>
                 </TabPanel>
-                <TabPanel value="2">Posts</TabPanel>
+                <TabPanel value="2">
+                    <PostsInfiniteScroll/>
+                </TabPanel>
             </TabContext>
 
         </div>

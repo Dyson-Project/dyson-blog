@@ -48,7 +48,7 @@ interface StoryContentSectionProps {
     publishPost: (editingDraft: EditingDraft) => Promise<any> | undefined
 }
 
-const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
+const EditStoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
     const {getDraft} = useDraftApi();
     const [error, setError] = useState<Object>(null);
     const [draftId, setDraftId] = useState<string | undefined>(props.draftId);
@@ -203,4 +203,4 @@ const StoryContentSection = (props: PropsWithRef<StoryContentSectionProps>) => {
             </div>
     )
 }
-export default StoryContentSection;
+export default EditStoryContentSection;

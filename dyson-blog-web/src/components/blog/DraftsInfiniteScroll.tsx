@@ -34,7 +34,7 @@ const DraftsInfiniteScroll = ({}: DraftsInfiniteScrollProps) => {
                            dataLength={drafts.length}>
         {
             drafts.map(({id, title, lastModifiedDate}) => (
-                <li className={utilStyles.listItem} key={id}>
+                <li className={utilStyles.listItem} key={id +(Math.random() + 1).toString(36).substring(7) }>
                     <Link href={`/draft/${id}/edit`}> {title || "untitled story"} </Link>
                     <br/>
                     <small className={utilStyles.lightText}>
